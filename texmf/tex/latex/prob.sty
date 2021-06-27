@@ -1,0 +1,91 @@
+\ProvidesPackage{prob}
+
+\RequirePackage{kvoptions}
+
+%   - xinttools (for zapping away spaces)
+\RequirePackage{xinttools}
+
+\DeclareBoolOption[false]{numbered}
+\DeclareBoolOption[false]{points}
+\DeclareStringOption[]{numbering}
+
+\ProcessKeyvalOptions*
+
+% Zap spaces from \bounce@theme so [theme=red] parses the same as [theme = red]
+\edef\prob@numbering{\expandafter\xintZapSpaces\expandafter\prob@numbering}
+
+\RequirePackage{xcolor} % for \color
+
+% counters if numbered
+\ifprob@numbered
+
+    \ifx\prob@numbering\empty
+        \newcounter{problem}
+    \else
+        \newcounter{problem}[\prob@numbering]
+    \fi
+
+    \setcounter{problem}{0}
+\fi
+
+% commands
+
+\DeclareRobustCommand{\@probfont}{\fontfamily{RobotoSlab-TLF}\selectfont}
+\def\@probcolor{black}
+\def\@reqcolor{black}
+\def\@probsymb{}
+\def\@reqsymb{}
+\def\@probtitle#1{\ifprob@numbered Problem \ifx\prob@numbering\empty\else\csname the\prob@numbering\endcsname.\fi\theproblem\fi\if\relax\detokenize{#1}\else{} (#1)\fi}
+
+% user interfaces
+
+\def\probcolor#1{\def\@probcolor{#1}}
+\def\reqcolor#1{\def\@reqcolor{#1}}
+\def\probsymb#1{\def\@probsymb{\,#1}}
+\def\reqsymb#1{\def\@reqsymb{\,#1}}
+
+\ifprob@points
+
+    \newcommand{\minpt}[1]{Minimum is [#1\@probsymb]. Problems denoted with{\@primary\@reqsymb} are required. (They still count towards the point total.)
+    \vspace{0.2cm}
+    }
+
+    \newenvironment{prob}[2][]{
+        {\parindent=0pt
+        \raggedright
+        \ifprob@numbered
+            \stepcounter{problem}
+        \fi
+        \raggedright
+        \@probfont\color{\@probcolor}[#2\@probsymb]\ifprob@numbered \;\fi\textbf{\@probtitle{#1}}}\hspace{3.5pt}\ignorespaces
+    }
+    {
+        \vspace{0.2cm}
+    }
+
+    \newenvironment{req}[2][]{
+        {\parindent=0pt
+        \raggedright
+        \ifprob@numbered
+            \stepcounter{problem}
+        \fi
+        \raggedright
+        \@probfont\color{\@reqcolor}[#2\@reqsymb]\ifprob@numbered \;\fi\textbf{\@probtitle{#1}}}\hspace{3.5pt}\ignorespaces
+    }
+    {
+        \vspace{0.2cm}
+    }
+\else % no req because required problems are a bit silly if there are no points
+    \newenvironment{prob}[1][]{
+        {\parindent=0pt
+        \raggedright
+        \ifprob@numbered
+            \stepcounter{problem}
+        \fi
+        \raggedright
+        \@probfont\color{\@probcolor}\textbf{\@probtitle{#1}}}\ignorespaces
+    }
+    {
+        \vspace{0.2cm}
+    }
+\fi
