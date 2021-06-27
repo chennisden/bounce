@@ -276,7 +276,58 @@
 \def\@secsymb{\csname @\bounce@theme sec\endcsname}
 
 \ifbounce@book % Set up part and chapter if book exists
+    % Part
 
+    % remove default part spacing
+    \renewcommand*{\partheadstartvskip}{}
+    \renewcommand*{\partheadmidvskip}{}
+    \renewcommand*{\partheadendvskip}{}
+
+    % partformat is responsible for printing the number
+    \renewcommand*{\partformat}{Part \thepart}
+
+    \renewcommand{\partlineswithprefixformat}[3]{
+        \thispagestyle{empty}
+        \begin{tikzpicture}[remember picture, overlay]
+            
+            % global stuff
+
+            \def\width{10}
+            \def\vertshift{0}
+            \def\radius{0.4}
+
+            % shifts for line
+
+            \def\lineheight{0.3}
+            \def\linex{2}
+            \def\liney{4}
+
+            \node at (current page.center) {
+                
+                % internal stuff -- do not edit unless you know what you are doing
+
+                \def\a{\lineheight*\linex/\liney}
+                \def\smallhypo{veclen(\a, \lineheight)}
+                \def\s{\radius*\linex/\liney}
+
+                \begin{tikzpicture}[ultra thick]
+
+                    % left
+
+                    \draw ({(\s-\smallhypo)*\a/\smallhypo}, {\lineheight+(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, \lineheight+\liney);
+                    \draw ({(\s-\smallhypo)*\a/\smallhypo}, {-\lineheight-(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, -\lineheight-\liney);
+                    \draw ({veclen(\radius,\s)-\a},0) circle (\radius);
+
+                    % right
+
+                    \draw ({\width - (\s-\smallhypo)*\a/\smallhypo}, {\lineheight+(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\width - \linex, \lineheight+\liney);
+                    \draw ({\width - (\s-\smallhypo)*\a/\smallhypo}, {-\lineheight-(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\width - \linex, -\lineheight-\liney);
+                    \draw ({\width - veclen(\radius,\s)+\a},0) circle (\radius);
+                \end{tikzpicture}
+            };
+
+        \end{tikzpicture}
+    }
 \fi
 
 \addtokomafont{section}{\notofont}
