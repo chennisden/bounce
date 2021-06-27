@@ -276,7 +276,31 @@
 \def\@secsymb{\csname @\bounce@theme sec\endcsname}
 
 \ifbounce@book % Set up part and chapter if book exists
+    % Chapter
 
+    % chapterformat is responsible for printing the number
+    \renewcommand*{\chapterformat}{\normalfont\Huge\notofont\thechapter}
+
+    \setkomafont{chapter}{\normalfont\fontsize{40}{48}\selectfont}
+    \DeclareRobustCommand{\chapterfont}{\normalfont\fontsize{30}{36}\selectfont\latofont\scshape} % font for the word "Chapter"
+
+    \renewcommand{\chapterlinesformat}[3]{
+        % #2 is the chapter number
+        % #3 is the chapter name
+        \begin{tikzpicture}
+            
+            \def\height{2.4}
+            \def\width{15}
+            \def\radius{0.7}
+
+            \draw [line width = 0.7mm, line cap = round] (0, \height) -- (0, \height/3) to [out = -90, in = 180] (\height/3, 0) -- (\width - \radius - 3.8, 0);
+            \draw [line width = 0.7mm, \@primarycolor] (\height/3, \height/4) -- (\width - \radius, \height/4);
+            \node at ($(\height/3, \height/6)+(0,0.2)$)[anchor = south west] {#3};
+            \filldraw [line width = 0.45mm, fill = white] (\width - \radius, \height/8) circle (\radius) node[align=center] {#2};
+            \fill [fill = white] (\width - 2*\radius - 0.1, -\height/6) rectangle (\width - \radius - 5, \height/4.5) node[pos=0.5] {\chapterfont Chapter};
+
+        \end{tikzpicture}
+    }
 \fi
 
 \addtokomafont{section}{\notofont}
