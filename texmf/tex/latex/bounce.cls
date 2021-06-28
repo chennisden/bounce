@@ -302,6 +302,10 @@
             \def\linex{2}
             \def\liney{4}
 
+            % arrow dist
+            \def\arrowup{0.15}
+            \def\arrowvertdist{0.4}
+
             \node at ($(current page.center) + (0, \vertshift)$) {
                 
                 % internal stuff -- do not edit unless you know what you are doing
@@ -311,19 +315,19 @@
                 \def\s{\radius*\linex/\liney}
                 \def\b{(veclen(\radius,\s)-\a)}
 
-                \begin{tikzpicture}[ultra thick]
+                \begin{tikzpicture}[line width = 1mm]
 
                     % left
 
                         % black
 
-                        \draw ({(\s-\smallhypo)*\a/\smallhypo}, {\lineheight+(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, \lineheight+\liney);
-                        \draw ({(\s-\smallhypo)*\a/\smallhypo}, {-\lineheight-(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, -\lineheight-\liney);
+                        \draw[line cap = round] ({(\s-\smallhypo)*\a/\smallhypo}, {\lineheight+(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, \lineheight+\liney);
+                        \draw[line cap = round] ({(\s-\smallhypo)*\a/\smallhypo}, {-\lineheight-(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, -\lineheight-\liney);
                         \draw ({\b},0) circle (\radius);
 
                         % blue
 
-                        \draw ({2*\b},0);
+                        \draw[color = \@primarycolor, ->, line cap = round] ({2*\b+(\radius-\lineheight)*\linex/\liney+\arrowup*\linex/\liney},\radius+\arrowup) -- ({2*\b+(\liney-\arrowvertdist)*\linex/\liney},\liney-\arrowvertdist+\lineheight);
 
                     % right
 
@@ -334,6 +338,12 @@
                         \draw ({\width - \b},0) circle (\radius);
 
                         % blue
+
+                        \draw[color = \@primarycolor, ->, line cap = round] ({\width-(2*\b+(\radius-\lineheight)*\linex/\liney+\arrowup*\linex/\liney)},{-(\radius+\arrowup)}) -- ({\width-(2*\b+(\liney-\arrowvertdist)*\linex/\liney)},{-(\liney-\arrowvertdist+\lineheight)});
+
+                    % text
+
+                        
                 \end{tikzpicture}
             };
 
