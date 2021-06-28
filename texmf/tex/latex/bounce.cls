@@ -288,6 +288,7 @@
 
     \renewcommand{\partlineswithprefixformat}[3]{
         \thispagestyle{empty}
+        \newpage
         \begin{tikzpicture}[remember picture, overlay]
             
             % global stuff
@@ -342,12 +343,15 @@
                         \draw[color = \@primarycolor, ->, line cap = round] ({\width-(2*\b+(\radius-\lineheight)*\linex/\liney+\arrowup*\linex/\liney)},{-(\radius+\arrowup)}) -- ({\width-(2*\b+(\liney-\arrowvertdist)*\linex/\liney)},{-(\liney-\arrowvertdist+\lineheight)});
 
                     % text
-
+                    
+                    \node [anchor = south] at (\width/2, 0) {#2};
+                    \node [anchor = north] at (\width/2, 0) {#3};
                         
                 \end{tikzpicture}
             };
 
         \end{tikzpicture}
+        \newpage
     }
 \fi
 
