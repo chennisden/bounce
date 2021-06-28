@@ -292,9 +292,9 @@
             
             % global stuff
 
-            \def\width{10}
-            \def\vertshift{0}
-            \def\radius{0.4}
+            \def\width{15}
+            \def\vertshift{2}
+            \def\radius{0.6}
 
             % shifts for line
 
@@ -302,27 +302,38 @@
             \def\linex{2}
             \def\liney{4}
 
-            \node at (current page.center) {
+            \node at ($(current page.center) + (0, \vertshift)$) {
                 
                 % internal stuff -- do not edit unless you know what you are doing
 
                 \def\a{\lineheight*\linex/\liney}
                 \def\smallhypo{veclen(\a, \lineheight)}
                 \def\s{\radius*\linex/\liney}
+                \def\b{(veclen(\radius,\s)-\a)}
 
                 \begin{tikzpicture}[ultra thick]
 
                     % left
 
-                    \draw ({(\s-\smallhypo)*\a/\smallhypo}, {\lineheight+(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, \lineheight+\liney);
-                    \draw ({(\s-\smallhypo)*\a/\smallhypo}, {-\lineheight-(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, -\lineheight-\liney);
-                    \draw ({veclen(\radius,\s)-\a},0) circle (\radius);
+                        % black
+
+                        \draw ({(\s-\smallhypo)*\a/\smallhypo}, {\lineheight+(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, \lineheight+\liney);
+                        \draw ({(\s-\smallhypo)*\a/\smallhypo}, {-\lineheight-(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\linex, -\lineheight-\liney);
+                        \draw ({\b},0) circle (\radius);
+
+                        % blue
+
+                        \draw ({2*\b},0);
 
                     % right
 
-                    \draw ({\width - (\s-\smallhypo)*\a/\smallhypo}, {\lineheight+(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\width - \linex, \lineheight+\liney);
-                    \draw ({\width - (\s-\smallhypo)*\a/\smallhypo}, {-\lineheight-(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\width - \linex, -\lineheight-\liney);
-                    \draw ({\width - veclen(\radius,\s)+\a},0) circle (\radius);
+                        % black
+
+                        \draw ({\width - (\s-\smallhypo)*\a/\smallhypo}, {\lineheight+(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\width - \linex, \lineheight+\liney);
+                        \draw ({\width - (\s-\smallhypo)*\a/\smallhypo}, {-\lineheight-(\s-\smallhypo)*\lineheight/\smallhypo}) -- (\width - \linex, -\lineheight-\liney);
+                        \draw ({\width - \b},0) circle (\radius);
+
+                        % blue
                 \end{tikzpicture}
             };
 
