@@ -426,13 +426,8 @@
 
 \newenvironment{exam}[1][]
 {
-<<<<<<< HEAD
     \stepcounter{exam}
-    \vspace{0.3cm}
-=======
-    \stepcounter{example}
     \vspace{4mm}
->>>>>>> main
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
