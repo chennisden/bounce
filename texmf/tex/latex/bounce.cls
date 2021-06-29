@@ -306,8 +306,9 @@
 % set chapter name on even page and section name on odd page if book
 
 \ifbounce@book
-    \RequirePackage[headsepline]{scrlayer-scrpage}
+    \RequirePackage[headsepline = 0.8pt]{scrlayer-scrpage}
     \setkomafont{pageheadfoot}{\nimbus}
+    \setkomafont{headsepline}{\@primary}
     \lehead{\thepage}
     \rehead{Part \thepart.~~{\@primary\nameref{part\thepartid}}}
     \lohead{Chapter \thechapter.~~{\@primary\nameref{chapter\thechapterid}}}
@@ -335,7 +336,7 @@
 
 \newenvironment{lazy}[1] % general lazy env, just change title
 {
-    \vspace{1.5mm}
+    \vspace*{1.5mm}
     \noindent{\notofont\@primary\bfseries #1.}\hspace{1.5mm}\ignorespaces
 }
 {
@@ -427,7 +428,7 @@
 \newenvironment{exam}[1][]
 {
     \stepcounter{exam}
-    \vspace{4mm}
+    \vspace*{4mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -463,7 +464,7 @@
 % example/exercise wrapper
 
 \newenvironment{exerbox}{
-    \vspace{4mm}
+    \vspace*{4mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -501,7 +502,7 @@
 %   - Walkthrough
 
 \newenvironment{walk}[1][]{
-    \vspace{4mm}
+    \vspace*{4mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -527,7 +528,7 @@
 %   - Proof/Solution box
 
 \newenvironment{prosol}[2][]{
-    \vspace{0.2mm}
+    \vspace*{0.2mm}
     \begin{tcolorbox}[
         enhanced, % allows us to use certain other keys
         breakable = \ifbounce@breakbox true\else false\fi,
@@ -604,7 +605,7 @@
         \hfill{\@primary #2}
     \end{tcolorbox}
     \end{flushright}
-    \vspace{0.3cm}
+    \vspace{3mm}
 }
 
 
