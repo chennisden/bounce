@@ -306,7 +306,7 @@
 % set chapter name on even page and section name on odd page if book
 
 \ifbounce@book
-    \RequirePackage[headsepline = 0.8pt]{scrlayer-scrpage}
+    \RequirePackage[headsepline = 1pt]{scrlayer-scrpage}
     \setkomafont{pageheadfoot}{\nimbus}
     \setkomafont{headsepline}{\@primary}
     \lehead{\thepage}
@@ -508,7 +508,7 @@
     \endlazy
 }
 
-\safesolify{exer}{exer}{\csname the\envnumbering\endcsname.\theexer}
+%\safesolify{exer}{exer}{\csname the\envnumbering\endcsname.\theexer}
 
 %   - Walkthrough
 
