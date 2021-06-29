@@ -222,23 +222,23 @@
 
 \ifbounce@book
 
-\setcounter{tocdepth}{1} % allows part, chapter, and section (depths -1, 0, and 1) to show up
+    \setcounter{tocdepth}{1} % allows part, chapter, and section (depths -1, 0, and 1) to show up
 
 \else
 
-\setcounter{tocdepth}{2} % allows section and subsection (depths 1 and 2) to show up
-% part (-1) and chapter (0) should not be used in the document
+    \setcounter{tocdepth}{2} % allows section and subsection (depths 1 and 2) to show up
+    % part (-1) and chapter (0) should not be used in the document
 
-% Change toc styles
+    % Change toc styles
 
-\DeclareTOCStyleEntry[
-    entryformat = {\notofont\hypersetup{linkcolor=\@primarycolor}\bfseries}, % must use hypersetup to manipulate color
-]{tocline}{section}
+    \DeclareTOCStyleEntry[
+        entryformat = {\notofont\hypersetup{linkcolor=\@primarycolor}\bfseries}, % must use hypersetup to manipulate color
+    ]{tocline}{section}
 
-\DeclareTOCStyleEntry[
-    entryformat = {\newpxtext\hypersetup{linkcolor=black}}, % must use hypersetup to manipulate color
-    pagenumberformat = {\newpxtext},
-]{tocline}{subsection}
+    \DeclareTOCStyleEntry[
+        entryformat = {\newpxtext\hypersetup{linkcolor=black}}, % must use hypersetup to manipulate color
+        pagenumberformat = {\newpxtext},
+    ]{tocline}{subsection}
 
 \fi
 
@@ -299,7 +299,6 @@
 % set chapter name on even page and section name on odd page if book
 
 \ifbounce@book
-    \usepackage{fancyhdr}
 \fi
 
 %%%%%%%%%%%%%%
