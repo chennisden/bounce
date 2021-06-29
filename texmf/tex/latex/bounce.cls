@@ -395,7 +395,7 @@
         colback = \@lightcolor,
         colframe = \@primarycolor,
         colbacktitle = \@primarycolor,
-        title = {Theorem \csname the\envnumbering\endcsname.\thetheo\if\relax\detokenize{#1}\else{} {(#1)}\fi},
+        title = {Theorem \csname the\envnumbering\endcsname.\thetheo\if\relax\detokenize{#1}\else{} {(#1)}\fi.},
         fonttitle = \notofont\color{white}\bfseries,
     ]
 }
@@ -419,7 +419,7 @@
         colback = white,
         colframe = \@primarycolor,
         colbacktitle = \@primarycolor,
-        title = {Definition \csname the\envnumbering\endcsname.\thedefi\if\relax\detokenize{#1}\else{} ({#1})\fi},
+        title = {Definition \csname the\envnumbering\endcsname.\thedefi\if\relax\detokenize{#1}\else{} ({#1})\fi.},
         fonttitle = \notofont\color{white}\bfseries,
     ]
 }
