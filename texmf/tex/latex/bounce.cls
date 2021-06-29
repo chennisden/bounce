@@ -87,9 +87,6 @@
 % 	- asymptote (for larger geometry diagrams)
 \RequirePackage{asymptote}
 
-% 	- scrlayer (for headers and footers, KOMA-Script recommended package)
-\RequirePackage{scrlayer}
-
 %%%%%%%
 %FONTS%
 %%%%%%%
@@ -100,11 +97,12 @@
 % Declare fonts
 \DeclareRobustCommand{\cmbright}{\fontfamily{cmbr}\selectfont} % cmbright font
 \DeclareRobustCommand{\notofont}{\fontfamily{NotoSans-TLF}\selectfont} % noto sans font
-\DeclareRobustCommand{\robotofont}{\fontfamily{RobotoSlab-TLF}\selectfont}
+\DeclareRobustCommand{\robotofont}{\fontfamily{RobotoSlab-TLF}\selectfont} % roboto slab font
 \DeclareRobustCommand{\cabin}{\fontfamily{Cabin-TLF}\selectfont} % cabin font
 \DeclareRobustCommand{\merri}{\fontfamily{MerriwthrSans-OsF}\selectfont} % merriweather sans font
 \DeclareRobustCommand{\step}{\fontfamily{STEP-TLF}\selectfont} % step font
-\DeclareRobustCommand{\newpxtext}{\fontfamily{zpltlf}\selectfont}
+\DeclareRobustCommand{\newpxtext}{\fontfamily{zpltlf}\selectfont} % newpx text font
+\DeclareRobustCommand{\nimbus}{\fontfamily{NimbusSans}\selectfont} % nimbus sans
 
 % Symbol packages
 
@@ -275,6 +273,15 @@
 % section symbol is defined based on bounce theme, csname expands \bounce@theme and thus correctly references one of the four above sections
 \def\@secsymb{\csname @\bounce@theme sec\endcsname}
 
+% Create part and chapter id for nameref (so part and chapter counters can be reset without causing issues)
+
+\newcounter{partid}\setcounter{partid}{0}
+\newcounter{chapterid}\setcounter{chapterid}{0}
+
+% Create refs to part and chapter names
+
+\RequirePackage{nameref}
+
 \ifbounce@book % Set up part and chapter if book exists
 
 \fi
@@ -299,8 +306,16 @@
 % set chapter name on even page and section name on odd page if book
 
 \ifbounce@book
-    \RequirePackage{scrlayer-scrpage}
-    \lehead{Chapter \thechapter. }
+    \RequirePackage[headsepline]{scrlayer-scrpage}
+    \setkomafont{pageheadfoot}{\nimbus}
+    \lehead{\thepage}
+    \rehead{Part \thepart.~~{\@primary\nameref{part\thepartid}}}
+    \lohead{Chapter \thechapter.~~{\@primary\nameref{chapter\thechapterid}}}
+    \rohead{\thepage}
+    \lefoot{}
+    \refoot{}
+    \lofoot{}
+    \rofoot{}
 \fi
 
 %%%%%%%%%%%%%%
