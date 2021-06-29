@@ -318,11 +318,11 @@
 
 \newenvironment{lazy}[1] % general lazy env, just change title
 {
-    \vspace{2mm}
+    \vspace{1.5mm}
     \noindent{\notofont\@primary\bfseries #1.}\hspace{1.5mm}\ignorespaces
 }
 {
-    \vspace{1mm}
+    \vspace{1.5mm}
 }
 
 %   - lemma (keep a counter)
@@ -408,7 +408,7 @@
 \newenvironment{exam}[1][]
 {
     \stepcounter{example}
-    \vspace{0.3cm}
+    \vspace{4mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -444,7 +444,7 @@
 % example/exercise wrapper
 
 \newenvironment{exerbox}{
-    \vspace{0.3cm}
+    \vspace{4mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -480,7 +480,7 @@
 %   - Walkthrough
 
 \newenvironment{walk}[1][]{
-    \vspace{0.3cm}
+    \vspace{4mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
