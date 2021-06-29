@@ -97,7 +97,7 @@
 % Declare fonts
 \DeclareRobustCommand{\cmbright}{\fontfamily{cmbr}\selectfont} % cmbright font
 \DeclareRobustCommand{\notofont}{\fontfamily{NotoSans-TLF}\selectfont} % noto sans font
-\DeclareRobustCommand{\robotofont}{\fontfamily{RobotoSlab-TLF}\selectfont}
+\DeclareRobustCommand{\robotofont}{\fontfamily{RobotoSlab-TLF}\selectfont} % roboto sans font
 \DeclareRobustCommand{\cabin}{\fontfamily{Cabin-TLF}\selectfont} % cabin font
 \DeclareRobustCommand{\merri}{\fontfamily{MerriwthrSans-OsF}\selectfont} % merriweather sans font
 \DeclareRobustCommand{\step}{\fontfamily{STEP-TLF}\selectfont} % step font
