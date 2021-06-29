@@ -292,6 +292,16 @@
 \addtokomafont{subsubsection}{\notofont}
 \renewcommand*\subsubsectionformat{\@primary\thesubsubsection\hspace{0.9em}}
 
+%%%%%%%%%
+%HEADERS%
+%%%%%%%%%
+
+% set chapter name on even page and section name on odd page if book
+
+\ifbounce@book
+    \usepackage{fancyhdr}
+\fi
+
 %%%%%%%%%%%%%%
 %ENVIRONMENTS%
 %%%%%%%%%%%%%%
@@ -381,7 +391,7 @@
         colback = white,
         colframe = \@primarycolor,
         colbacktitle = \@primarycolor,
-        title = Definition \thesection.\thedefinition{} ({#1}),
+        title = {Definition \thesection.\thedefinition\if\relax\detokenize{#1}\else{} ({#1})\fi},
         fonttitle = \notofont\color{white}\bfseries,
     ]
 }
