@@ -336,7 +336,7 @@
 
 \newenvironment{lazy}[1] % general lazy env, just change title
 {
-    \vspace*{1.5mm}
+    \vspace{1.5mm}
     \noindent{\notofont\@primary\bfseries #1.}\hspace{1.5mm}\ignorespaces
 }
 {
@@ -428,7 +428,8 @@
 \newenvironment{exam}[1][]
 {
     \stepcounter{exam}
-    \vspace*{4mm}
+    \vspace{7mm}
+    \vspace*{-3mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -464,7 +465,8 @@
 % example/exercise wrapper
 
 \newenvironment{exerbox}{
-    \vspace*{4mm}
+    \vspace{7mm}
+    \vspace*{-3mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -502,7 +504,8 @@
 %   - Walkthrough
 
 \newenvironment{walk}[1][]{
-    \vspace*{4mm}
+    \vspace{7mm}
+    \vspace*{-3mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -528,7 +531,7 @@
 %   - Proof/Solution box
 
 \newenvironment{prosol}[2][]{
-    \vspace*{0.2mm}
+    \vspace{0.2mm}
     \begin{tcolorbox}[
         enhanced, % allows us to use certain other keys
         breakable = \ifbounce@breakbox true\else false\fi,
