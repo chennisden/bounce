@@ -310,8 +310,8 @@
     \setkomafont{pageheadfoot}{\nimbus}
     \setkomafont{headsepline}{\@primary}
     \lehead{\thepage}
-    \rehead{Part \thepart.~~{\@primary\nameref{part\thepartid}}}
-    \lohead{Chapter \thechapter.~~{\@primary\nameref{chapter\thechapterid}}}
+    \rehead{Part \thepart.~~{\@primary Algebra}}
+    \lohead{Chapter \thechapter.~~{\@primary Systems of Equations}}
     \rohead{\thepage}
     \lefoot{}
     \refoot{}
@@ -327,6 +327,15 @@
 \RequirePackage{tcolorbox}
 \tcbuselibrary{skins} % We need the "enhanced" skin to have box titles
 \tcbuselibrary{breakable} % allows tcolorbox to break between pages
+
+% Numbering based on article or book
+%   - chapter if book
+%   - section if article
+\ifbounce@book
+    \def\envnumbering{chapter}
+\else
+    \def\envnumbering{section}
+\fi
 
 %   - Lazy in-text environments
 %       - exercise (later in code)
@@ -345,12 +354,12 @@
 
 %   - lemma (keep a counter)
 
-\newcounter{lemma}[section]
+\newcounter{lemma}[\envnumbering]
 \setcounter{lemma}{0}
 
 \newenvironment{lemma}{
     \stepcounter{lemma}
-    \begin{lazy}{Lemma \thesection.\thelemma}
+    \begin{lazy}{Lemma \csname the\envnumbering\endcsname.\thelemma}
 }
 {
     \end{lazy}
@@ -375,7 +384,7 @@
 
 %   - Theorem
 
-\newcounter{theo}[section] % creates counter "theorem" that resets every time \section is called
+\newcounter{theo}[\envnumbering] % creates counter "theorem" that resets every time \section is called
 
 \newenvironment{theo}[1][]{
     \stepcounter{theo}
@@ -386,7 +395,7 @@
         colback = \@lightcolor,
         colframe = \@primarycolor,
         colbacktitle = \@primarycolor,
-        title = {Theorem \thesection.\thetheo\if\relax\detokenize{#1}\else{} {(#1)}\fi},
+        title = {Theorem \csname the\envnumbering\endcsname.\thetheo\if\relax\detokenize{#1}\else{} {(#1)}\fi},
         fonttitle = \notofont\color{white}\bfseries,
     ]
 }
@@ -394,11 +403,11 @@
     \end{tcolorbox}
 }
 
-\safesolify[Proof of]{theo}{theo}{\thesection.\thetheo}
+\safesolify[Proof of]{theo}{theo}{\csname the\envnumbering\endcsname.\thetheo}
 
 %   - Definition
 
-\newcounter{defi}[section] % creates counter "definition" that resets every time \section is called
+\newcounter{defi}[\envnumbering] % creates counter "definition" that resets every time \section is called
 
 \newenvironment{defi}[1][]
 {
@@ -410,7 +419,7 @@
         colback = white,
         colframe = \@primarycolor,
         colbacktitle = \@primarycolor,
-        title = {Definition \thesection.\thedefi\if\relax\detokenize{#1}\else{} ({#1})\fi},
+        title = {Definition \csname the\envnumbering\endcsname.\thedefi\if\relax\detokenize{#1}\else{} ({#1})\fi},
         fonttitle = \notofont\color{white}\bfseries,
     ]
 }
@@ -422,7 +431,7 @@
 
 % counters
 
-\newcounter{exam}[section]
+\newcounter{exam}[\envnumbering]
 \setcounter{exam}{0}
 
 \newenvironment{exam}[1][]
@@ -441,7 +450,7 @@
             \draw [ultra thick, \@primarycolor, ->] ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (15,0.3)$);
         },
         colframe = \@primarycolor,
-        title = Example \thesection.\theexam\if\relax\detokenize{#1}\else{} {(#1)}\fi.,
+        title = Example \csname the\envnumbering\endcsname.\theexam\if\relax\detokenize{#1}\else{} {(#1)}\fi.,
         fonttitle = \notofont\@primary\bfseries,
         top = -1pt,
         bottom = -2pt,
@@ -457,7 +466,7 @@
 
 % counters
 
-\newcounter{exer}[section]
+\newcounter{exer}[\envnumbering]
 \setcounter{exer}{0}
 
 % Example/Exercise box
@@ -493,13 +502,13 @@
 \newenvironment{exer}[1][]
 {
     \stepcounter{exer}
-    \lazy{Exercise \thesection.\theexer\if\relax\detokenize{#1}\else{} (#1)\fi}
+    \lazy{Exercise \csname the\envnumbering\endcsname.\theexer\if\relax\detokenize{#1}\else{} (#1)\fi}
 }
 {
     \endlazy
 }
 
-\safesolify{exer}{exer}{\thesection.\theexer}
+\safesolify{exer}{exer}{\csname the\envnumbering\endcsname.\theexer}
 
 %   - Walkthrough
 
