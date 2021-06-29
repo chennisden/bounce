@@ -97,7 +97,7 @@
 % Declare fonts
 \DeclareRobustCommand{\cmbright}{\fontfamily{cmbr}\selectfont} % cmbright font
 \DeclareRobustCommand{\notofont}{\fontfamily{NotoSans-TLF}\selectfont} % noto sans font
-\DeclareRobustCommand{\robotofont}{\fontfamily{RobotoSlab-TLF}\selectfont} % roboto slab font
+\DeclareRobustCommand{\robotofont}{\fontfamily{RobotoSlab-TLF}\selectfont}
 \DeclareRobustCommand{\cabin}{\fontfamily{Cabin-TLF}\selectfont} % cabin font
 \DeclareRobustCommand{\merri}{\fontfamily{MerriwthrSans-OsF}\selectfont} % merriweather sans font
 \DeclareRobustCommand{\step}{\fontfamily{STEP-TLF}\selectfont} % step font
@@ -335,11 +335,11 @@
 
 \newenvironment{lazy}[1] % general lazy env, just change title
 {
-    \vspace{2mm}
+    \vspace{1.5mm}
     \noindent{\notofont\@primary\bfseries #1.}\hspace{1.5mm}\ignorespaces
 }
 {
-    \vspace{1mm}
+    \vspace{1.5mm}
 }
 
 %   - lemma (keep a counter)
@@ -426,8 +426,13 @@
 
 \newenvironment{exam}[1][]
 {
+<<<<<<< HEAD
     \stepcounter{exam}
     \vspace{0.3cm}
+=======
+    \stepcounter{example}
+    \vspace{4mm}
+>>>>>>> main
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -463,7 +468,7 @@
 % example/exercise wrapper
 
 \newenvironment{exerbox}{
-    \vspace{0.3cm}
+    \vspace{4mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -501,7 +506,7 @@
 %   - Walkthrough
 
 \newenvironment{walk}[1][]{
-    \vspace{0.3cm}
+    \vspace{4mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
