@@ -87,9 +87,6 @@
 % 	- asymptote (for larger geometry diagrams)
 \RequirePackage{asymptote}
 
-% 	- scrlayer (for headers and footers, KOMA-Script recommended package)
-\RequirePackage{scrlayer}
-
 %%%%%%%
 %FONTS%
 %%%%%%%
