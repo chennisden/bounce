@@ -299,6 +299,8 @@
 % set chapter name on even page and section name on odd page if book
 
 \ifbounce@book
+    \RequirePackage{scrlayer-scrpage}
+    \lehead{Chapter \thechapter. }
 \fi
 
 %%%%%%%%%%%%%%
@@ -327,12 +329,12 @@
 
 %   - lemma (keep a counter)
 
-\newcounter{lem}[section]
-\setcounter{lem}{0}
+\newcounter{lemma}[section]
+\setcounter{lemma}{0}
 
 \newenvironment{lemma}{
-    \stepcounter{lem}
-    \begin{lazy}{Lemma \thesection.\thelem}
+    \stepcounter{lemma}
+    \begin{lazy}{Lemma \thesection.\thelemma}
 }
 {
     \end{lazy}
@@ -357,10 +359,10 @@
 
 %   - Theorem
 
-\newcounter{theorem}[section] % creates counter "theorem" that resets every time \section is called
+\newcounter{theo}[section] % creates counter "theorem" that resets every time \section is called
 
 \newenvironment{theo}[1][]{
-    \stepcounter{theorem}
+    \stepcounter{theo}
 
     \begin{tcolorbox}[
         skin = enhanced,
@@ -368,7 +370,7 @@
         colback = \@lightcolor,
         colframe = \@primarycolor,
         colbacktitle = \@primarycolor,
-        title = {Theorem \thesection.\thetheorem\if\relax\detokenize{#1}\else{} {(#1)}\fi},
+        title = {Theorem \thesection.\thetheo\if\relax\detokenize{#1}\else{} {(#1)}\fi},
         fonttitle = \notofont\color{white}\bfseries,
     ]
 }
@@ -376,13 +378,15 @@
     \end{tcolorbox}
 }
 
+\safesolify[Proof of]{theo}{theo}{\thesection.\thetheo}
+
 %   - Definition
 
-\newcounter{definition}[section] % creates counter "definition" that resets every time \section is called
+\newcounter{defi}[section] % creates counter "definition" that resets every time \section is called
 
 \newenvironment{defi}[1][]
 {
-    \stepcounter{definition}
+    \stepcounter{defi}
 
     \begin{tcolorbox}[
         skin = enhanced,
@@ -390,7 +394,7 @@
         colback = white,
         colframe = \@primarycolor,
         colbacktitle = \@primarycolor,
-        title = {Definition \thesection.\thedefinition\if\relax\detokenize{#1}\else{} ({#1})\fi},
+        title = {Definition \thesection.\thedefi\if\relax\detokenize{#1}\else{} ({#1})\fi},
         fonttitle = \notofont\color{white}\bfseries,
     ]
 }
@@ -402,12 +406,12 @@
 
 % counters
 
-\newcounter{example}[section]
-\setcounter{example}{0}
+\newcounter{exam}[section]
+\setcounter{exam}{0}
 
 \newenvironment{exam}[1][]
 {
-    \stepcounter{example}
+    \stepcounter{exam}
     \vspace{0.3cm}
     \begin{tcolorbox}[
         skin = enhanced,
@@ -420,7 +424,7 @@
             \draw [ultra thick, \@primarycolor, ->] ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (15,0.3)$);
         },
         colframe = \@primarycolor,
-        title = Example \thesection.\theexample\if\relax\detokenize{#1}\else{} {(#1)}\fi.,
+        title = Example \thesection.\theexam\if\relax\detokenize{#1}\else{} {(#1)}\fi.,
         fonttitle = \notofont\@primary\bfseries,
         top = -1pt,
         bottom = -2pt,
@@ -436,8 +440,8 @@
 
 % counters
 
-\newcounter{exercise}[section]
-\setcounter{exercise}{0}
+\newcounter{exer}[section]
+\setcounter{exer}{0}
 
 % Example/Exercise box
 
@@ -470,12 +474,14 @@
 
 \newenvironment{exer}[1][]
 {
-    \stepcounter{exercise}
-    \lazy{Exercise \thesection.\theexercise\if\relax\detokenize{#1}\else{} (#1)\fi}
+    \stepcounter{exer}
+    \lazy{Exercise \thesection.\theexer\if\relax\detokenize{#1}\else{} (#1)\fi}
 }
 {
     \endlazy
 }
+
+\safesolify{exer}{exer}{\thesection.\theexer}
 
 %   - Walkthrough
 
