@@ -64,6 +64,7 @@
 % Base class is scrartcl or scrbook
 \ifbounce@book
     \LoadClass[openany]{scrbook}
+    \raggedbottom
 \else
     \LoadClass{scrartcl}
 \fi
@@ -310,8 +311,8 @@
     \setkomafont{pageheadfoot}{\nimbus}
     \setkomafont{headsepline}{\@primary}
     \lehead{\thepage}
-    \rehead{Part \thepart.~~{\@primary Algebra}}
-    \lohead{Chapter \thechapter.~~{\@primary Systems of Equations}}
+    \rehead{Part \thepart.~~{\@primary\nameref{part\thepartid}}}
+    \lohead{Chapter \thechapter.~~{\@primary\nameref{chapter\thechapterid}}}
     \rohead{\thepage}
     \lefoot{}
     \refoot{}
@@ -446,8 +447,7 @@
         before upper=\tcbtitle\hspace{1.5mm}, % put title at top
         opacityback = 0,
         overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(6,-0.3)$)--($(current bounding box.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (current bounding box.south west) -- (current bounding box.north west) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3)$);
-            \draw [ultra thick, \@primarycolor, ->] ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (15,0.3)$);
+            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(6,-0.3)$)--($(current bounding box.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (current bounding box.south west) -- (current bounding box.north west) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (15,0.3)$);
         },
         colframe = \@primarycolor,
         title = Example \csname the\envnumbering\endcsname.\theexam\if\relax\detokenize{#1}\else{} {(#1)}\fi.,
@@ -481,8 +481,7 @@
         frame hidden,
         opacityback = 0,
         overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south east)+(-6,-0.3)$)--($(current bounding box.south east)+(-0.3,-0.3)$) to[out = 0, in = 270] (current bounding box.south east) -- (current bounding box.north east) to[out = 90, in = 0] ($(current bounding box.north east) + (-0.3,0.3)$);
-            \draw [ultra thick, \@primarycolor, ->] ($(current bounding box.north east) + (-0.3,0.3)$) -- ($(current bounding box.north west) + (0,0.3)$);
+            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south east)+(-6,-0.3)$)--($(current bounding box.south east)+(-0.3,-0.3)$) to[out = 0, in = 270] (current bounding box.south east) -- (current bounding box.north east) to[out = 90, in = 0] ($(current bounding box.north east) + (-0.3,0.3)$) -- ($(current bounding box.north west) + (0,0.3)$);
         },
         colframe = \@primarycolor,
         top = -4pt,
@@ -522,8 +521,7 @@
         before upper={\tcbtitle\hspace{1.5mm}}, % put title at top
         opacityback = 0,
         overlay = {
-            \draw [ultra thick, \@primarycolor, ->] ($(current bounding box.south west)+(0.3,-0.3)$)--($(current bounding box.south west)+(10,-0.3)$);
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (current bounding box.south west) -- (current bounding box.north west) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (4,0.3)$);
+            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(10,-0.3)$) -- ($(current bounding box.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (current bounding box.south west) -- (current bounding box.north west) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (4,0.3)$);
         },
         colframe = \@primarycolor,
         title = Walkthrough\if\relax\detokenize{#1}\else{} {#1}\fi.,
