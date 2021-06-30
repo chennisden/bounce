@@ -437,9 +437,9 @@
 
 \newenvironment{exam}[1][]
 {
+    \def\examvertspace{0.4}
+    \def\bottomshift{0.06}
     \stepcounter{exam}
-    \vspace{7mm}
-    \vspace*{-3mm}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -447,19 +447,18 @@
         before upper=\tcbtitle\hspace{1.5mm}, % put title at top
         opacityback = 0,
         overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(6,-0.3)$)--($(current bounding box.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (current bounding box.south west) -- (current bounding box.north west) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (15,0.3)$);
+            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(6,-0.3+\examvertspace+\bottomshift)$)--($(current bounding box.south west)+(0.3,-0.3+\examvertspace+\bottomshift)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\examvertspace+\bottomshift)$) -- ($(current bounding box.north west)+(0,-\examvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\examvertspace)$) -- ($(current bounding box.north west) + (15,0.3-\examvertspace)$);
         },
         colframe = \@primarycolor,
         title = Example \csname the\envnumbering\endcsname.\theexam\if\relax\detokenize{#1}\else{} {(#1)}\fi.,
         fonttitle = \notofont\@primary\bfseries,
-        top = -1pt,
-        bottom = -2pt,
+        top = \examvertspace cm,
+        bottom = \examvertspace cm,
     ]
     \raggedright\ignorespaces
 }
 {
     \end{tcolorbox}
-    \vspace{4mm}
 }
 
 %   - Exercise
@@ -474,24 +473,24 @@
 % example/exercise wrapper
 
 \newenvironment{exerbox}{
-    \vspace{7mm}
-    \vspace*{-3mm}
+    \def\exerboxvertspace{0.4}
+    \def\topshift{0.1}
+    \def\bottomshift{0.1}
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
         opacityback = 0,
         overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south east)+(-6,-0.3)$)--($(current bounding box.south east)+(-0.3,-0.3)$) to[out = 0, in = 270] (current bounding box.south east) -- (current bounding box.north east) to[out = 90, in = 0] ($(current bounding box.north east) + (-0.3,0.3)$) -- ($(current bounding box.north west) + (0,0.3)$);
+            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south east)+(-6,-0.3+\exerboxvertspace+\bottomshift)$)--($(current bounding box.south east)+(-0.3,-0.3+\exerboxvertspace+\bottomshift)$) to[out = 0, in = 270] ($(current bounding box.south east)+(0,\exerboxvertspace+\bottomshift)$) -- ($(current bounding box.north east)+(0,-\exerboxvertspace-\topshift)$) to[out = 90, in = 0] ($(current bounding box.north east) + (-0.3,0.3-\exerboxvertspace-\topshift)$) -- ($(current bounding box.north west) + (0,0.3-\exerboxvertspace-\topshift)$);
         },
         colframe = \@primarycolor,
-        top = -4pt,
-        bottom = -2pt,
+        top = \exerboxvertspace cm,
+        bottom = \exerboxvertspace cm,
     ]
         \raggedright
 }
 {
     \end{tcolorbox}
-    \vspace{4mm}
 }
 
 % lazy exercise environment
@@ -512,8 +511,7 @@
 %   - Walkthrough
 
 \newenvironment{walk}[1][]{
-    \vspace{7mm}
-    \vspace*{-3mm}
+    \def\walkvertspace{0.4} % creates more vertical space for walkthrough
     \begin{tcolorbox}[
         skin = enhanced,
         frame hidden,
@@ -521,18 +519,17 @@
         before upper={\tcbtitle\hspace{1.5mm}}, % put title at top
         opacityback = 0,
         overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(10,-0.3)$) -- ($(current bounding box.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (current bounding box.south west) -- (current bounding box.north west) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3)$) -- ($(current bounding box.north west) + (4,0.3)$);
+            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(10,-0.3+\walkvertspace)$) -- ($(current bounding box.south west)+(0.3,-0.3+\walkvertspace)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\walkvertspace)$) -- ($(current bounding box.north west)+(0,-\walkvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\walkvertspace)$) -- ($(current bounding box.north west) + (4,0.3-\walkvertspace)$);
         },
         colframe = \@primarycolor,
         title = Walkthrough\if\relax\detokenize{#1}\else{} {#1}\fi.,
         fonttitle = \notofont\@primary\bfseries,
-        top = 0pt,
-        bottom = -2pt,
+        top = \walkvertspace cm,
+        bottom = \walkvertspace cm,
     ]    
 }
 {
     \end{tcolorbox}
-    \vspace{4mm}
 }
 
 %   - Proof/Solution box
