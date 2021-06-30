@@ -249,6 +249,7 @@
             % we are making @ a letter and making @ an other afterwards
             % This is because we are inputting \sol@prefix.sol,
             % which may (and usually does) contain commands with the @ character.
+            % It is NOT because the string "\sol@prefix.sol" contains an @ character!
             \makeatletter
 
             \input{\sol@prefix.sol}
