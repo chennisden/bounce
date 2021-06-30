@@ -34,8 +34,6 @@
 % uses package ifallfalse by bounce providers that checks for this
 \RequirePackage{ifallfalse}
 
-\def\allorchecks{}
-
 \AtBeginDocument{
     \begin{allfalse}{\bounce@theme}{
         \ClassError{bounce}{Invalid or no theme passed in}{Valid themes are red, blue, green, purple, cyan, and custom.}
@@ -289,7 +287,7 @@
 
 \addtokomafont{section}{\notofont}
 \ifbounce@book % Have section symbol if article, no section symbol if book
-    \renewcommand*\sectionformat{\thesection\hspace{0.8em}}
+    \renewcommand*\sectionformat{\@primary\thesection\hspace{0.8em}}
 \else
     \renewcommand*\sectionformat{\@primary\@secsymb\,\thesection\hspace{0.8em}}
 \fi
