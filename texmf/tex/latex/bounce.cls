@@ -96,6 +96,7 @@
 \DeclareRobustCommand{\step}{\fontfamily{STEP-TLF}\selectfont} % step font
 \DeclareRobustCommand{\newpxtext}{\fontfamily{zpltlf}\selectfont} % newpx text font
 \DeclareRobustCommand{\nimbus}{\fontfamily{NimbusSans}\selectfont} % nimbus sans
+\DeclareRobustCommand{\inter}{\fontfamily{Inter-LF}\selectfont} % inter sans
 
 % Symbol packages
 
@@ -279,17 +280,19 @@
 
 \fi
 
-\addtokomafont{section}{\notofont}
+\let\sectionfont\notofont
+
+\addtokomafont{section}{\sectionfont}
 \ifbounce@book % Have section symbol if article, no section symbol if book
     \renewcommand*\sectionformat{\@primary\thesection\hspace{0.8em}}
 \else
     \renewcommand*\sectionformat{\@primary\@secsymb\,\thesection\hspace{0.8em}}
 \fi
 
-\addtokomafont{subsection}{\notofont}
+\addtokomafont{subsection}{\sectionfont}
 \renewcommand*\subsectionformat{\@primary\thesubsection\hspace{0.9em}}
 
-\addtokomafont{subsubsection}{\notofont}
+\addtokomafont{subsubsection}{\sectionfont}
 \renewcommand*\subsubsectionformat{\@primary\thesubsubsection\hspace{0.9em}}
 
 %%%%%%%%%
