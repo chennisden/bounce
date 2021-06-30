@@ -4,9 +4,6 @@
 % 	- kvoptions (for creating key-value commands and class format)
 \RequirePackage{kvoptions}
 
-%   - xinttools (for zapping away spaces)
-\RequirePackage{xinttools}
-
 % Declared options:
 %   - theme (red, blue, green, purple are the options)
 %       The theme option will control the color scheme
@@ -26,9 +23,6 @@
 \DeclareBoolOption[false]{breakbox} % whether prosol box can break or not
 \DeclareBoolOption[false]{book} % whether this is a book or not
 \ProcessKeyvalOptions*
-
-% Zap spaces from \bounce@theme so [theme=red] parses the same as [theme = red]
-\edef\bounce@theme{\expandafter\xintZapSpaces\expandafter\bounce@theme}
 
 % throw exception if \bounce@theme doesn't match any of red, blue, green, purple.
 % uses package ifallfalse by bounce providers that checks for this
