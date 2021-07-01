@@ -456,6 +456,34 @@
     \end{tcolorbox}
 }
 
+\RequirePackage{fontawesome}
+
+\newenvironment{warn}
+{
+    \def\examvertspace{0.4}
+    \def\bottomshift{0.06}
+    \begin{tcolorbox}[
+        skin = enhanced,
+        frame hidden,
+        detach title, % removes title from normal position, stores value in \tcbtitle
+        before upper=\tcbtitle\hspace{1.5mm}, % put title at top
+        opacityback = 0,
+        overlay = {
+            \draw [ultra thick, \@primarycolor, line cap = round]($(current bounding box.south west)+(0.3,-0.3+\examvertspace+\bottomshift)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\examvertspace+\bottomshift)$) -- ($(current bounding box.north west)+(0,-\examvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\examvertspace)$) -- ($(current bounding box.north west) + (15,0.3-\examvertspace)$);
+        },
+        colframe = \@primarycolor,
+        title =\faWarning\text{ }Warning,
+        fonttitle = \notofont\@primary\bfseries,
+        top = \examvertspace cm,
+        bottom = \examvertspace cm,
+    ]
+    \raggedright\ignorespaces
+}
+{
+\color{white}\text{You're very stupid.}
+    \end{tcolorbox}
+}
+
 %   - Exercise
 
 % counters
