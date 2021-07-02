@@ -30,7 +30,14 @@
 
 \AtBeginDocument{
     \begin{allfalse}{\bounce@theme}{
-        \ClassError{bounce}{Invalid or no theme passed in}{Valid themes are red, blue, green, purple, cyan, and custom.}
+        \ClassError{bounce}
+        {
+            Invalid or no theme passed in%
+        }
+        {
+            Valid themes are red, blue, green, purple, cyan, and custom.\MessageBreak
+            You passed in the theme \bounce@theme, which does not match any of the above.
+        }
     }
         \orcheck{red}
         \orcheck{blue}
