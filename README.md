@@ -12,7 +12,7 @@ The book class needs work; I would appreciate anyone who could help on it. In pa
 - and nor is the chapter formatting.
 Our current work can be seen on the part and chapter branches, but be warned: it is not good.
 
-You can check out chapter headings and part formatting in the `chapter` and `part` branches; the `chapterhead` branch may become useful later but it has been merged into `master`.
+You can check out chapter headings and part formatting in the `chapter` and `part` branches; the `chapterhead` branch may become useful later but it has been merged into `main`.
 
 What would also be helpful is documentation and examples.
 
