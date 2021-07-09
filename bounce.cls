@@ -94,7 +94,7 @@
 \DeclareRobustCommand{\cmbright}{\fontfamily{cmbr}\selectfont} % cmbright font
 \DeclareRobustCommand{\notofont}{\fontfamily{NotoSans-TLF}\selectfont} % noto sans font
 \DeclareRobustCommand{\robotofont}{\fontfamily{RobotoSlab-TLF}\selectfont} % roboto sans font
-\DeclareRobustCommand{\cabin}{\fontfamily{Cabin-TLF}\selectfont} nopoints% cabin font
+\DeclareRobustCommand{\cabin}{\fontfamily{Cabin-TLF}\selectfont} % cabin font
 \DeclareRobustCommand{\merri}{\fontfamily{MerriwthrSans-OsF}\selectfont} % merriweather sans font
 \DeclareRobustCommand{\step}{\fontfamily{STEP-TLF}\selectfont} % step font
 \DeclareRobustCommand{\newpxtext}{\fontfamily{zpltlf}\selectfont} % newpx text font
@@ -551,8 +551,11 @@
         colframe = \@primarycolor,
         title = Walkthrough\if\relax\detokenize{#1}\relax\else{} {#1}\fi.,
         fonttitle = \notofont\@primary\bfseries,
-        },
-        left = 0.2cm,
+        top = \walkvertspace cm,
+        bottom = \walkvertspace cm,
+    ]
+}
+{    
     \end{tcolorbox}
 }
 
