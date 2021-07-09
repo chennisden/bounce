@@ -131,7 +131,8 @@
     \expandafter\def\csname @#3\endcsname{\csname @\bounce@theme #3\endcsname}
     \expandafter\def\csname @#3color\endcsname{\bounce@theme #3 color}
     
-    \if\relax\detokenize{#1}\else
+    \if\relax\detokenize{#1}\relax
+    \else
         \begin{allfalse}{#1}{
             \ClassError{bounce}{Invalid base theme passed in}{Valid base themes are red, blue, green, and purple.}
         }
@@ -394,7 +395,7 @@
         colback = \@lightcolor,
         colframe = \@primarycolor,
         colbacktitle = \@primarycolor,
-        title = {Theorem \csname the\envnumbering\endcsname.\thetheo\if\relax\detokenize{#1}\else{} {(#1)}\fi.},
+        title = {Theorem \csname the\envnumbering\endcsname.\thetheo\if\relax\detokenize{#1}\relax\else{} {(#1)}\fi.},
         fonttitle = \notofont\color{white}\bfseries,
     ]
 }
@@ -418,7 +419,7 @@
         colback = white,
         colframe = \@primarycolor,
         colbacktitle = \@primarycolor,
-        title = {Definition \csname the\envnumbering\endcsname.\thedefi\if\relax\detokenize{#1}\else{} ({#1})\fi.},
+        title = {Definition \csname the\envnumbering\endcsname.\thedefi\if\relax\detokenize{#1}\relax\else{} ({#1})\fi.},
         fonttitle = \notofont\color{white}\bfseries,
     ]
 }
@@ -448,7 +449,7 @@
             \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(6,-0.3+\examvertspace+\bottomshift)$)--($(current bounding box.south west)+(0.3,-0.3+\examvertspace+\bottomshift)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\examvertspace+\bottomshift)$) -- ($(current bounding box.north west)+(0,-\examvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\examvertspace)$) -- ($(current bounding box.north west) + (15,0.3-\examvertspace)$);
         },
         colframe = \@primarycolor,
-        title = Example \csname the\envnumbering\endcsname.\theexam\if\relax\detokenize{#1}\else{} {(#1)}\fi.,
+        title = Example \csname the\envnumbering\endcsname.\theexam\if\relax\detokenize{#1}\relax\else{} {(#1)}\fi.,
         fonttitle = \notofont\@primary\bfseries,
         top = \examvertspace cm,
         bottom = \examvertspace cm,
@@ -526,7 +527,7 @@
 \newenvironment{exer}[1][]
 {
     \stepcounter{exer}
-    \lazy{Exercise \csname the\envnumbering\endcsname.\theexer\if\relax\detokenize{#1}\else{} (#1)\fi}
+    \lazy{Exercise \csname the\envnumbering\endcsname.\theexer\if\relax\detokenize{#1}\relax\else{} (#1)\fi}
 }
 {
     \endlazy
@@ -548,7 +549,7 @@
             \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(10,-0.3+\walkvertspace)$) -- ($(current bounding box.south west)+(0.3,-0.3+\walkvertspace)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\walkvertspace)$) -- ($(current bounding box.north west)+(0,-\walkvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\walkvertspace)$) -- ($(current bounding box.north west) + (4,0.3-\walkvertspace)$);
         },
         colframe = \@primarycolor,
-        title = Walkthrough\if\relax\detokenize{#1}\else{} {#1}\fi.,
+        title = Walkthrough\if\relax\detokenize{#1}\relax\else{} {#1}\fi.,
         fonttitle = \notofont\@primary\bfseries,
         },
         left = 0.2cm,
@@ -579,7 +580,7 @@
         attach boxed title to top left = {xshift = 5.5mm},
         colframe = \@primarycolor,
         colbacktitle = white,
-        title = {\MakeUppercase #2}\if\relax\detokenize{#1}\else{} {#1}\fi.,
+        title = {\MakeUppercase #2}\if\relax\detokenize{#1}\relax\else{} {#1}\fi.,
         fonttitle = \notofont\@primary\bfseries,
         top = 0.1cm,
         bottom = 0cm,

@@ -35,7 +35,7 @@
 \def\@reqcolor{black}
 \def\@probsymb{}
 \def\@reqsymb{}
-\def\@probtitle#1{\ifprob@numbered Problem \ifx\prob@numbering\empty\else\csname the\prob@numbering\endcsname.\fi\theproblem\fi\if\relax\detokenize{#1}\else{} (#1)\fi}
+\def\@probtitle#1{\ifprob@numbered Problem \ifx\prob@numbering\empty\else\csname the\prob@numbering\endcsname.\fi\theproblem\fi\if\relax\detokenize{#1}\relax\else{} (#1)\fi}
 
 % user interfaces
 
