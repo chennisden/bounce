@@ -550,8 +550,11 @@
         colframe = \@primarycolor,
         title = Walkthrough\if\relax\detokenize{#1}\else{} {#1}\fi.,
         fonttitle = \notofont\@primary\bfseries,
-        },
-        left = 0.2cm,
+        top = \walkvertspace cm,
+        bottom = \walkvertspace cm,
+    ]
+}
+{    
     \end{tcolorbox}
 }
 
