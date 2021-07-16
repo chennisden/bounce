@@ -1,3 +1,11 @@
+# Packages you need
+
+_Very_ recently, I wrote two packages, `ifallfalse` and `macrolist`, and I published them to CTAN. The class depends on these two packages to compile, so make sure you have them. Run
+
+    tlmgr install packagename
+
+to install `packagename`.
+
 # Summary
 
 This is not a completed class; please keep this in mind when using it. The article is _mostly_ done, but refinements can be made to `bubblepage.sty`. The book needs serious revision (though you can still write LaTeX code and just wait for us to refine the visuals).

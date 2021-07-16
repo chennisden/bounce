@@ -85,8 +85,6 @@
 % 	- tikz libraries
 \usetikzlibrary{calc} % allows coordinate calculation
 
-% 	- asymptote (for larger geometry diagrams)nopoints
-
 % Set default text and math fonts
 \RequirePackage{newpxtext, newpxmath}
 
