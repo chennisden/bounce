@@ -8,51 +8,11 @@ to install `packagename`.
 
 However, TeX Live takes up to a few days to update these packages, and because this class is undergoing quite rapid development, it is highly recommended you clone these styles instead. For Unix-like systems, you may want to consider installing the following scripts onto your own system. (I do not actually distribute these scripts inside the package for a couple of reasons, principally because these scripts are incredibly short, will serve no function in `texmf`, and will be changed fairly often.)
 
-## Install (clone) script
+## Install and pull script (Bash)
 
 If you change your TEXMFHOME variable and do not manually move bounce and its dependencies over, you should use the install script again.
 
-  #! /usr/bin/bash
-
-  DEP=(ifallfalse macrolist palette) # Dependencies
-
-  clone(){
-    git clone "https://github.com/chennisden/$1"
-  }
-
-  TEXMF=$(kpsewhich --var-value TEXMFHOME)
-  if [ ! -d "$TEXMF/tex/latex" ]
-  then
-    mkdir "$TEXMF/tex/latex"
-  fi
-  cd "$TEXMF/tex/latex"
-
-  for d in ${DEP[@]}; do
-    clone $d
-  done
-
-## Update (pull) script
-
-This might as well be identical to the clone script.
-
-  #! /usr/bin/bash
-
-  DEP=(ifallfalse macrolist palette) # Dependencies
-
-  pull(){
-    git pull "https://github.com/chennisden/$1"
-  }
-
-  TEXMF=$(kpsewhich --var-value TEXMFHOME)
-  if [ ! -d "$TEXMF/tex/latex" ]
-  then
-    mkdir "$TEXMF/tex/latex"
-  fi
-  cd "$TEXMF/tex/latex"
-
-  for d in ${DEP[@]}; do
-    pull $d
-  done
+See the [https://github.com/chennisden/dotfiles/blob/master/bin/dtex](dtex) install script for an automated solution. (If you do not want `chennistex`, just remove it from the array `DEP`.)
 
 # Summary
 
@@ -76,7 +36,9 @@ What would also be helpful is documentation and examples.
 # Contents
 
 - `README.md` this file
-- `bounce.cls` main class
+- `bounce.cls` class ready for user-use
+- `bouncepalette.sty` supporting package that extends palettes beyond default
+- `bouncebox.sty` supporting package that provides tcolorbox boxes
 - `bubblepage.sty` supporting package that draws bubbles on titlepage
 - `prob.sty` supporting package to format problems
 - `solprint.sty` supporting package to associate solutions with environments and print out solutions (similar to answers.sty)

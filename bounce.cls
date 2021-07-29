@@ -1,92 +1,119 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{bounce}[2021/05/27 Article class with predefined theorem-style environments]
+\ProvidesClass{bounce}[2021/05/27 User-ready article class building off of bouncecore]
 
-% 	- kvoptions (for creating key-value commands and class format)
 \RequirePackage{kvoptions}
 
 % Declared options:
-%   - theme (red, blue, green, purple are the options)
-%       The theme option will control the color scheme
+%
+%   BOUNCE CORE
+%
+%   - palette (red, blue, green, purple, cyan are the options)
+%
+%       The palette option will control the color scheme
 %       of the document.
+%
+%       Blue is the default option.
+%
 %       If you are trying to write a collection of handouts for high school
 %       math competitions, we recommend you use a consistent color scheme.
 %       The authors suggest that red, blue, green, and purple correspond to
 %       algebra, combo, geometry, and number theory.
+%
+%   - suite (diamonds, clubs, hearts, spades, and global are the options)
+%
+%       The suite option will determine several symbols,
+%       including the section and problem symbols.
+%
+%       Global is the default option.
+%
+%   BOUNCE ADDONS
+%
 %   - showsol
+%
 %       solutions attached to exercises and pset problems are always present
 %       in the source code, but only shown when showsol is called
+%
 %   - breakbox
-%       if this is true, the prosol box becomess breakable
+%
+%       if this is true, the prosol box becomes breakable
 
-\DeclareStringOption[]{theme}
+% BOUNCE CORE OPTIONS
+
+\DeclareStringOption[blue]{palette} % for colorpalette.sty
+\DeclareStringOption[global]{suite} % for symbolsuite.sty
+
+% BOUNCE ADDON OPTIONS
+
 \DeclareBoolOption[false]{showsol} % whether solutions are shown
 \DeclareBoolOption[false]{breakbox} % whether prosol box can break or not
-\DeclareBoolOption[false]{book} % whether this is a book or not
 \DeclareBoolOption[true]{points}
 \ProcessKeyvalOptions*
 
-% throw exception if \bounce@theme doesn't match any of red, blue, green, purple.
-% uses package ifallfalse by bounce providers that checks for this
-\RequirePackage{ifallfalse}
+% Set default text and math fonts
+% Load at start because listadd and listremove need to be undefined
 
-\AtBeginDocument{
-    \begin{allfalse}{\bounce@theme}{
-        \ClassError{bounce}
-        {
-            Invalid or no theme passed in%
-        }
-        {
-            Valid themes are red, blue, green, purple, cyan, and custom.\MessageBreak
-            You passed in the theme \bounce@theme, which does not match any of the above.
-        }
-    }
-        \orcheck{red}
-        \orcheck{blue}
-        \orcheck{green}
-        \orcheck{purple}
+\RequirePackage{newpxtext, newpxmath}
+\let\listadd\relax
+\let\listremove\relax
 
-        \orcheck{cyan}
+% Default class
 
-        \orcheck{custom}
-    \end{allfalse}
-}
+\LoadClass{scrartcl}
+
+% Base colors
+
+\RequirePackage{colorpalette}
+\RequirePackage{symbolpalette}
+
+\newpalettetheme{bounce}
+
+\newpalette{bounce}{blue}
+
+\addcolortotheme{bounce}{primary}
+\addcolortotheme{bounce}{light}
+
+\setpalettecolor{bounce}{blue}{primary}{060d96}
+\setpalettecolor{bounce}{blue}{light}{dce6fb}
+
+\newsuitetheme{bounce}
+
+\newsuite{bounce}{global}
+
+\addsymboltotheme{bounce}{section}
+\addsymboltotheme{bounce}{prob}
+\addsymboltotheme{bounce}{req}
+
+\setsuitesymbol{bounce}{global}{section}{\faGlobe}
+\setsuitesymbol{bounce}{global}{prob}{\adjustbox{Trim=4.3pt 2.6pt 4.3pt 0pt,width=1.3ex,margin=0.2ex 0ex 0.2ex 0ex}{\BlackPawnOnWhite}}
+\setsuitesymbol{bounce}{global}{req}{\adjustbox{Trim=3.2pt 2.2pt 3.2pt 0pt,width=1.58ex,raise=0ex,margin=0.1ex 0ex 0.1ex 0ex}{\BlackRookOnWhite}}
+
+% default active palette/suite
+\activepalette{bounce}{blue}
+\activesuite{bounce}{global}
 
 %   - solprint
 %       This is a package written by the providers of bounce.cls.
 %       It is responsible for printing the solutions associated with the examples and pset at the end of the document.
-%       You will not find it on CTAN.
 \ifbounce@showsol
 \RequirePackage[showsol]{solprint}
 \else
 \RequirePackage{solprint}
 \fi
 
-% Base class is scrartcl or scrbook
-\ifbounce@book
-    \LoadClass[openany]{scrbook}
-    \raggedbottom
-\else
-    \LoadClass{scrartcl}
-\fi
-
 % Require the following packages:
-
-% 	- geometry (for page sizing)
-\RequirePackage{geometry}
 
 % 	- The standard AMS typesetting packages
 \RequirePackage{amsmath}
-\RequirePackage{amsthm}
 \RequirePackage{amsfonts}
+
+%   - asymptote
+\RequirePackage{asymptote}
 
 %   - tikz (draw diagrams natively in TeX)
 \RequirePackage{tikz}
 
 % 	- tikz libraries
 \usetikzlibrary{calc} % allows coordinate calculation
-
-% Set default text and math fonts
-\RequirePackage{newpxtext, newpxmath}
 
 % Declare fonts
 \DeclareRobustCommand{\cmbright}{\fontfamily{cmbr}\selectfont} % cmbright font
@@ -108,85 +135,7 @@
 %COLORS%
 %%%%%%%%
 
-% 	- xcolor (for colors in the document)
-\PassOptionsToPackage{HTML}{xcolor}
-\RequirePackage[HTML]{xcolor}
-
-% Color pallete:
-%   Primary - used for section, problem, outline of theorem boxes
-%   light - used for background of theorem boxes
-
-% Takes in [optionally] base theme for symbol inheritance, palette name, palette color, HTML color code
-%   Ex: \palettecolor{red}{primary}{696969}
-%     The first line defines the color redprimarycolor,
-%     The second line defines the command \@redprimary (so \@primary actually has something to refer to)
-%     The third line defines \@primary in this example,
-%     The fourth line defines \@primarycolor
-
-\newcommand\palettecolor[4][]{
-    \definecolor{#2#3 color}{HTML}{#4}
-    \expandafter\def\csname @#2#3\endcsname{\color{#2#3 color}}
-    \expandafter\def\csname @#3\endcsname{\csname @\bounce@theme #3\endcsname}
-    \expandafter\def\csname @#3color\endcsname{\bounce@theme #3 color}
-    
-    \if\relax\detokenize{#1}\relax
-    \else
-        \begin{allfalse}{#1}{
-            \ClassError{bounce}{Invalid base theme passed in}{Valid base themes are red, blue, green, and purple.}
-        }
-            \orcheck{red}
-            \orcheck{blue}
-            \orcheck{green}
-            \orcheck{purple}
-        \end{allfalse}
-
-        \expandafter\def\csname @#2sec\endcsname{\csname @#1sec\endcsname}
-        \expandafter\def\csname @#2prob\endcsname{\csname @#1prob\endcsname}
-    \fi
-}
-
-% Define base color palettes
-
-\palettecolor{red}{primary}{b40a14}
-\palettecolor{red}{light}{fce8e8}
-
-\palettecolor{blue}{primary}{060d96}
-\palettecolor{blue}{light}{dce6fb}
-
-\palettecolor{green}{primary}{067612}
-\palettecolor{green}{light}{e1ffe6}
-
-\palettecolor{purple}{primary}{50245a}
-\palettecolor{purple}{light}{f5ebfa}
-
-% Additional color palettes
-
-\palettecolor[blue]{cyan}{primary}{187199}
-\palettecolor[blue]{cyan}{light}{e6f0fa}
-
-% Set your own palette
-% User-end command
-% #1 is base theme,
-% #2 is HTML code of primary, and
-% #3 is HTML code of secondary.
-
-\def\setpalette#1#2#3{
-    \ifnum\pdfstrcmp{\bounce@theme}{custom}=0
-        \begin{allfalse}{#1}{
-            \ClassError{bounce}{Invalid base theme passed in to \protect\setpalette}{Valid base themes are red, blue, green, and purple.}
-        }
-            \orcheck{red}
-            \orcheck{blue}
-            \orcheck{green}
-            \orcheck{purple}
-        \end{allfalse}
-
-        \palettecolor[#1]{custom}{primary}{#2}
-        \palettecolor[#1]{custom}{light}{#3}
-    \else
-        \ClassError{bounce}{You may only define a custom palette if you are using the theme "custom."}{}
-    \fi
-}
+\RequirePackage{bouncepalette}[prob, req] % extends bouncecore's palette
 
 %%%%%%%%%%%%%%%%%%%
 %TABLE OF CONTENTS%
@@ -200,13 +149,13 @@
     % boxes are gross
     citecolor=black,
     filecolor=black,
-    linkcolor=\@primarycolor,
-    urlcolor=\@primarycolor,
+    linkcolor=\getcolor{bounce}{primary},
+    urlcolor=\getcolor{bounce}{primary},
 }
 
 % Set up page margins: 1 inch on each side
 % Must be loaded after hyperref
-\geometry{margin = 1in}
+\RequirePackage{geometry}
 
 \newcommand{\toc}{ % Custom short table of contents command
 \newpage    
@@ -214,49 +163,40 @@
 \newpage
 }
 
-\ifbounce@book
+\setcounter{tocdepth}{2} % allows section and subsection (depths 1 and 2) to show up
+% part (-1) and chapter (0) should not be used in the document
 
-    \setcounter{tocdepth}{1} % allows part, chapter, and section (depths -1, 0, and 1) to show up
+% Change toc styles
 
-\else
+\DeclareTOCStyleEntry[
+    entryformat = {\notofont\hypersetup{linkcolor=\getcolor{bounce}{primary}}\bfseries}, % must use hypersetup to manipulate color
+]{tocline}{section}
 
-    \setcounter{tocdepth}{2} % allows section and subsection (depths 1 and 2) to show up
-    % part (-1) and chapter (0) should not be used in the document
-
-    % Change toc styles
-
-    \DeclareTOCStyleEntry[
-        entryformat = {\notofont\hypersetup{linkcolor=\@primarycolor}\bfseries}, % must use hypersetup to manipulate color
-    ]{tocline}{section}
-
-    \DeclareTOCStyleEntry[
-        entryformat = {\newpxtext\hypersetup{linkcolor=black}}, % must use hypersetup to manipulate color
-        pagenumberformat = {\newpxtext},
-    ]{tocline}{subsection}
-
-\fi
+\DeclareTOCStyleEntry[
+    entryformat = {\newpxtext\hypersetup{linkcolor=black}}, % must use hypersetup to manipulate color
+    pagenumberformat = {\newpxtext},
+]{tocline}{subsection}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TITLE AND SECTION FORMATTING%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %   - bubblepage
-%       This is a package written by the providers of bounce.cls.
 %       It is responsible for adding bubbles to the title page.
-%       You will not find it on CTAN.
+%       It is also in this directory.
 
 % We hook this to the beginning of the document in order for
-% setpalette to work.
+% getcolor to work.
 
 \AtBeginDocument{
-    \extractcolorspecs{\bounce@theme primary color}{\bubble@tempmodel}{\bubble@tempcolor} % gets color code in whatever the default color model is 
+    \extractcolorspecs{\getcolor{bounce}{primary}}{\bubble@tempmodel}{\bubble@tempcolor} % gets color code in whatever the default color model is 
     \convertcolorspec{\bubble@tempmodel}{\bubble@tempcolor}{HTML}{\bubble@color}
 
     \RequirePackage[model = HTML, color = \bubble@color]{bubblepage}
 }
 
 \addtokomafont{title}{\cabin\bfseries}
-\addtokomafont{author}{\cabin\@primary\bfseries}
+\addtokomafont{author}{\cabin\applycolor{bounce}{primary}\bfseries}
 \addtokomafont{date}{\cabin}
 
 % set up section symbols for each theme
@@ -266,89 +206,35 @@
 \def\@greensec{\ding{169}} % Lets green section symbol be diamond
 \def\@purplesec{\ding{171}} % Lets purple section symbol be spade
 
-% section symbol is defined based on bounce theme, csname expands \bounce@theme and thus correctly references one of the four above sections
-\def\@secsymb{\csname @\bounce@theme sec\endcsname}
-
-% Create part and chapter id for nameref (so part and chapter counters can be reset without causing issues)
-
-\newcounter{partid}\setcounter{partid}{0}
-\newcounter{chapterid}\setcounter{chapterid}{0}
-
-% Create refs to part and chapter names
-
-\RequirePackage{nameref}
-
-\ifbounce@book % Set up part and chapter if book exists
-
-\fi
-
 \let\sectionfont\notofont
 
 \addtokomafont{section}{\sectionfont}
-\ifbounce@book % Have section symbol if article, no section symbol if book
-    \renewcommand*\sectionformat{\@primary\thesection\hspace{0.8em}}
-\else
-    \renewcommand*\sectionformat{\@primary\@secsymb\,\thesection\hspace{0.8em}}
-\fi
+\renewcommand*\sectionformat{\applycolor{bounce}{primary}\printsymbol{bounce}{section}\,\thesection\hspace{0.8em}}
 
 \addtokomafont{subsection}{\sectionfont}
-\renewcommand*\subsectionformat{\@primary\thesubsection\hspace{0.9em}}
+\renewcommand*\subsectionformat{\applycolor{bounce}{primary}\thesubsection\hspace{0.9em}}
 
 \addtokomafont{subsubsection}{\sectionfont}
-\renewcommand*\subsubsectionformat{\@primary\thesubsubsection\hspace{0.9em}}
-
-%%%%%%%%%
-%HEADERS%
-%%%%%%%%%
-
-% set chapter name on even page and section name on odd page if book
-
-\ifbounce@book
-    \RequirePackage[headsepline = 1pt]{scrlayer-scrpage}
-    \setkomafont{pageheadfoot}{\nimbus}
-    \setkomafont{headsepline}{\@primary}
-    \lehead{\thepage}
-    \rehead{Part \thepart.~~{\@primary\nameref{part\thepartid}}}
-    \lohead{Chapter \thechapter.~~{\@primary\nameref{chapter\thechapterid}}}
-    \rohead{\thepage}
-    \lefoot{}
-    \refoot{}
-    \lofoot{}
-    \rofoot{}
-\fi
+\renewcommand*\subsubsectionformat{\applycolor{bounce}{primary}\thesubsubsection\hspace{0.9em}}
 
 %%%%%%%%%%%%%%
 %ENVIRONMENTS%
 %%%%%%%%%%%%%%
 
-% 	- tcolorbox (for boxes)
-\RequirePackage{tcolorbox}
-\tcbuselibrary{skins} % We need the "enhanced" skin to have box titles
-\tcbuselibrary{breakable} % allows tcolorbox to break between pages
-
-% Numbering based on article or book
-%   - chapter if book
-%   - section if article
-\ifbounce@book
-    \def\envnumbering{chapter}
-\else
-    \def\envnumbering{section}
+\RequirePackage{bouncebox}
+\ifbounce@breakbox
+    \renewcommand\bounceboxbreakable{true}
 \fi
+
+% Numbering can be changed (so if you want to extend this to book, it will be easier to do so)
+
+\def\envnumbering{section}
 
 %   - Lazy in-text environments
 %       - exercise (later in code)
 %       - lemma
 %       - claim
 %       - remark
-
-\newenvironment{lazy}[1] % general lazy env, just change title
-{
-    \vspace{1.5mm}
-    \noindent{\notofont\@primary\bfseries #1.}\hspace{1.5mm}\ignorespaces
-}
-{
-    \vspace{1.5mm}
-}
 
 %   - lemma (keep a counter)
 
@@ -357,7 +243,7 @@
 
 \newenvironment{lemma}{
     \stepcounter{lemma}
-    \begin{lazy}{Lemma \csname the\envnumbering\endcsname.\thelemma}
+    \begin{lazy}{Lemma \csname the\envnumbering\endcsname.\thelemma.}
 }
 {
     \end{lazy}
@@ -366,7 +252,7 @@
 %   - claim (no counter)
 
 \newenvironment{claim}{
-    \begin{lazy}{Claim}
+    \begin{lazy}{Claim.}
 }
 {
     \end{lazy}
@@ -374,7 +260,7 @@
 %   - remark (no counter)
 
 \newenvironment{remark}{
-    \begin{lazy}{Remark}
+    \begin{lazy}{Remark.}
 }
 {
     \end{lazy}
@@ -386,22 +272,13 @@
 
 \newenvironment{theo}[1][]{
     \stepcounter{theo}
-
-    \begin{tcolorbox}[
-        skin = enhanced,
-        attach boxed title to top left = {xshift = 4mm, yshift = -3.3mm, yshifttext = -2.5mm,},
-        colback = \@lightcolor,
-        colframe = \@primarycolor,
-        colbacktitle = \@primarycolor,
-        title = {Theorem \csname the\envnumbering\endcsname.\thetheo\if\relax\detokenize{#1}\relax\else{} {(#1)}\fi.},
-        fonttitle = \notofont\color{white}\bfseries,
-    ]
+    \begin{bouncepopclosed}{Theorem \csname the\envnumbering\endcsname.\thetheo\if\relax\detokenize{#1}\relax\else{} {(#1)}\fi.}{\notofont\color{white}\bfseries}{\getcolor{bounce}{primary}}{\getcolor{bounce}{light}}
 }
 {
-    \end{tcolorbox}
+    \end{bouncepopclosed}
 }
 
-\safesolify[Proof of]{theo}{theo}{\csname the\envnumbering\endcsname.\thetheo}
+\safesolify[Proof of]{theo}{Theorem}{\csname the\envnumbering\endcsname.\thetheo}
 
 %   - Definition
 
@@ -410,19 +287,10 @@
 \newenvironment{defi}[1][]
 {
     \stepcounter{defi}
-
-    \begin{tcolorbox}[
-        skin = enhanced,
-        attach boxed title to top left = {xshift = 4mm, yshift = -3.3mm, yshifttext = -2.5mm,},
-        colback = white,
-        colframe = \@primarycolor,
-        colbacktitle = \@primarycolor,
-        title = {Definition \csname the\envnumbering\endcsname.\thedefi\if\relax\detokenize{#1}\relax\else{} ({#1})\fi.},
-        fonttitle = \notofont\color{white}\bfseries,
-    ]
+    \begin{bouncepopclosed}{Definition \csname the\envnumbering\endcsname.\thedefi\if\relax\detokenize{#1}\relax\else{} ({#1})\fi.}{\notofont\color{white}\bfseries}{\getcolor{bounce}{primary}}{white}    
 }
 {
-    \end{tcolorbox}
+    \end{bouncepopclosed}
 }
 
 %   - Example
@@ -434,56 +302,21 @@
 
 \newenvironment{exam}[1][]
 {
-    \def\examvertspace{0.4}
-    \def\bottomshift{0.06}
     \stepcounter{exam}
-    \begin{tcolorbox}[
-        skin = enhanced,
-        frame hidden,
-        detach title, % removes title from normal position, stores value in \tcbtitle
-        before upper=\tcbtitle\hspace{1.5mm}, % put title at top
-        opacityback = 0,
-        overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(6,-0.3+\examvertspace+\bottomshift)$)--($(current bounding box.south west)+(0.3,-0.3+\examvertspace+\bottomshift)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\examvertspace+\bottomshift)$) -- ($(current bounding box.north west)+(0,-\examvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\examvertspace)$) -- ($(current bounding box.north west) + (15,0.3-\examvertspace)$);
-        },
-        colframe = \@primarycolor,
-        title = Example \csname the\envnumbering\endcsname.\theexam\if\relax\detokenize{#1}\relax\else{} {(#1)}\fi.,
-        fonttitle = \notofont\@primary\bfseries,
-        top = \examvertspace cm,
-        bottom = \examvertspace cm,
-    ]
-    \raggedright\ignorespaces
+    \begin{bounceupleftbox}{Example \csname the\envnumbering\endcsname.\theexam\if\relax\detokenize{#1}\relax\else{} {(#1)}\fi.}{\notofont\applycolor{bounce}{primary}\bfseries}{\getcolor{bounce}{primary}}
 }
 {
-    \end{tcolorbox}
+    \end{bounceupleftbox}
 }
 
 \RequirePackage{fontawesome}
 
 \newenvironment{warn}
 {
-    \def\examvertspace{0.4}
-    \def\bottomshift{0.06}
-    \begin{tcolorbox}[
-        skin = enhanced,
-        frame hidden,
-        detach title, % removes title from normal position, stores value in \tcbtitle
-        before upper=\tcbtitle\hspace{1.5mm}, % put title at top
-        opacityback = 0,
-        overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round]($(current bounding box.south west)+(0.3,-0.3+\examvertspace+\bottomshift)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\examvertspace+\bottomshift)$) -- ($(current bounding box.north west)+(0,-\examvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\examvertspace)$) -- ($(current bounding box.north west) + (15,0.3-\examvertspace)$);
-        },
-        colframe = \@primarycolor,
-        title =\faWarning\text{ }Warning,
-        fonttitle = \notofont\@primary\bfseries,
-        top = \examvertspace cm,
-        bottom = \examvertspace cm,
-    ]
-    \raggedright\ignorespaces
+    \begin{bounceupleftbox}{\faWarning~Warning}{\notofont\applycolor{bounce}{primary}\bfseries}{\getcolor{bounce}{primary}}
 }
 {
-\color{white}\text{You're very stupid.}
-    \end{tcolorbox}
+    \end{bounceupleftbox}
 }
 
 %   - Exercise
@@ -498,24 +331,10 @@
 % example/exercise wrapper
 
 \newenvironment{exerbox}{
-    \def\exerboxvertspace{0.4}
-    \def\topshift{0.1}
-    \def\bottomshift{0.1}
-    \begin{tcolorbox}[
-        skin = enhanced,
-        frame hidden,
-        opacityback = 0,
-        overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south east)+(-6,-0.3+\exerboxvertspace+\bottomshift)$)--($(current bounding box.south east)+(-0.3,-0.3+\exerboxvertspace+\bottomshift)$) to[out = 0, in = 270] ($(current bounding box.south east)+(0,\exerboxvertspace+\bottomshift)$) -- ($(current bounding box.north east)+(0,-\exerboxvertspace-\topshift)$) to[out = 90, in = 0] ($(current bounding box.north east) + (-0.3,0.3-\exerboxvertspace-\topshift)$) -- ($(current bounding box.north west) + (0,0.3-\exerboxvertspace-\topshift)$);
-        },
-        colframe = \@primarycolor,
-        top = \exerboxvertspace cm,
-        bottom = \exerboxvertspace cm,
-    ]
-        \raggedright
+    \begin{bounceuprightbox}{}{}{\getcolor{bounce}{primary}}
 }
 {
-    \end{tcolorbox}
+    \end{bounceuprightbox}
 }
 
 % lazy exercise environment
@@ -531,127 +350,59 @@
     \endlazy
 }
 
-%\safesolify{exer}{exer}{\csname the\envnumbering\endcsname.\theexer}
+\safesolify{exer}{Exercise}{\csname the\envnumbering\endcsname.\theexer}
 
 %   - Walkthrough
 
 \newenvironment{walk}[1][]{
-    \def\walkvertspace{0.4} % creates more vertical space for walkthrough
-    \begin{tcolorbox}[
-        skin = enhanced,
-        frame hidden,
-        detach title, % removes title from normal position, stores value in \tcbtitle
-        before upper={\tcbtitle\hspace{1.5mm}}, % put title at top
-        opacityback = 0,
-        overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south west)+(10,-0.3+\walkvertspace)$) -- ($(current bounding box.south west)+(0.3,-0.3+\walkvertspace)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\walkvertspace)$) -- ($(current bounding box.north west)+(0,-\walkvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\walkvertspace)$) -- ($(current bounding box.north west) + (4,0.3-\walkvertspace)$);
-        },
-        colframe = \@primarycolor,
-        title = Walkthrough\if\relax\detokenize{#1}\relax\else{} {#1}\fi.,
-        fonttitle = \notofont\@primary\bfseries,
-        top = \walkvertspace cm,
-        bottom = \walkvertspace cm,
-    ]
+    \begin{bouncedownrightbox}{Walkthrough\if\relax\detokenize{#1}\relax\else{} {#1}\fi.}{\notofont\applycolor{bounce}{primary}\bfseries}{\getcolor{bounce}{primary}}
 }
 {    
-    \end{tcolorbox}
-}
-
-%   - Proof/Solution box
-
-\newenvironment{prosol}[2][]{
-    \vspace{0.2mm}
-    \begin{tcolorbox}[
-        enhanced, % allows us to use certain other keys
-        breakable = \ifbounce@breakbox true\else false\fi,
-        frame hidden, % gets rid of default frame so we can draw our own
-        opacityback = 0, % makes background have 0 opacity, hence transparent
-        overlay unbroken = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(interior.south west)+(0.5,-0.3)$)--($(interior.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (interior.south west) -- (interior.north west) to[out = 90, in = 180] ($(interior.north west) + (0.3,0.3)$) -- ($(interior.north west) + (0.5,0.3)$);
-        },
-        overlay first = {
-            \draw [ultra thick, \@primarycolor, line cap = round] (interior.south west) -- (interior.north west) to[out = 90, in = 180] ($(interior.north west) + (0.3,0.3)$) -- ($(interior.north west) + (0.5,0.3)$);
-        },
-        overlay last = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(interior.south west)+(0.5,-0.3)$)--($(interior.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (interior.south west) -- (interior.north west) -- (interior.north west);
-        },
-        overlay middle = {
-            \draw [ultra thick, \@primarycolor] (interior.south west) -- (interior.north west);
-        },
-        attach boxed title to top left = {xshift = 5.5mm},
-        colframe = \@primarycolor,
-        colbacktitle = white,
-        title = {\MakeUppercase #2}\if\relax\detokenize{#1}\relax\else{} {#1}\fi.,
-        fonttitle = \notofont\@primary\bfseries,
-        top = 0.1cm,
-        bottom = 0cm,
-    ]
-        \raggedright    
-}
-{
-    \end{tcolorbox}
-    \vspace{4mm}
+    \end{bouncedownrightbox}
 }
 
 % proof
 
 \newenvironment{pro}[1][]
 {
-    \prosol[#1]{proof}
+    \begin{bouncepopopen}{Proof\if\relax\detokenize{#1}\relax\else{} {#1}\fi.}{\notofont\applycolor{bounce}{primary}\bfseries}{\getcolor{bounce}{primary}}
 }
 {
-    \endprosol
+    \end{bouncepopopen}
 }
 
 % solution
 
 \newenvironment{sol}[1][]
 {
-    \prosol[#1]{solution}
+    \begin{bouncepopopen}{Solution\if\relax\detokenize{#1}\relax\else{} {#1}\fi.}{\notofont\applycolor{bounce}{primary}\bfseries}{\getcolor{bounce}{primary}}
 }
 {
-    \endprosol
+    \end{bouncepopopen}
 }
 
 %   - Pset quote
-\newcommand{\psetquote}[2]{
+
+\newcommand\psetquote[2]{
+    \vspace{-4mm}
     \begin{flushright}
-    \begin{tcolorbox}[
-        enhanced,
-        frame hidden,
-        opacityback = 0,
-        width = 8cm,
-        overlay = {
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.north west)+(-0.3,-0.6)$) -- ($(current bounding box.north west)+(-0.3,-0.3)$) to[out = 90, in = 180] ($(current bounding box.north west)+(0.3,0.3)$) -- ($(current bounding box.north west)+(1.2, 0.3)$);
-            \draw [ultra thick, \@primarycolor, line cap = round] ($(current bounding box.south east)+(-1.2,-0.3)$) -- ($(current bounding box.south east)+(-0.3,-0.3)$) to[out = 0, in = 270] ($(current bounding box.south east)+(0.3,0.3)$) -- ($(current bounding box.south east)+(0.3,0.6)$);
-        },
-        left = 0.2cm,
-        right = 0.2cm,
-        top = 0.1cm,
-        bottom = 0.1cm,
-    ]
-        ``#1''
+        \begin{bouncecornerhalfwidthbox}{}{}{\getcolor{bounce}{primary}}
+            ``#1''
 
-        \vspace{5mm}
-
-        \hfill{\@primary #2}
-    \end{tcolorbox}
+            \vspace{5mm}
+    
+            \hfill{\applycolor{bounce}{primary} #2}
+        \end{bouncecornerhalfwidthbox}
     \end{flushright}
-    \vspace{3mm}
 }
-
 
 % problem environments
 % We use the package prob
 
-\ifbounce@book
-    \RequirePackage[numbered, numbering = chapter]{prob}
+\ifbounce@points
+    \RequirePackage[numbered, points]{prob}
 \else
-    \ifbounce@points
-        \RequirePackage[numbered, points]{prob}
-    \else
-        \RequirePackage[numbered]{prob}
-    \fi
+    \RequirePackage[numbered]{prob}
 \fi
 
 % sets up prob and req environments for solprint
@@ -659,41 +410,21 @@
 % also, no required problems exist in nopoint because we use no points
 % (and thus the concept of required problems is a little silly.) 
 
-\ifbounce@book
+\ifbounce@points
 
-    \safesolify{prob}{Problem}{\theproblem}
-    
+    \solify{prob}{Problem}{\theproblem}
+    \solify{req}{Problem}{\theproblem}
+
 \else
 
-    \ifbounce@points
-
-        \solify{prob}{Problem}{\theproblem}
-        \solify{req}{Problem}{\theproblem}
-
-    \else
-
-        \safesolify{prob}{Problem}{\theproblem}
-
-    \fi
+    \safesolify{prob}{Problem}{\theproblem}
 
 \fi
 
-% set up problem symbols for each theme
-%   same as section symbol (though we define it this way)
-%   so that we can change it easily whenever desired.
+\reqcolor{\getcolor{bounce}{primary}}
 
-\def\@redprob{\@redsec}
-\def\@blueprob{\@bluesec}
-\def\@greenprob{\@greensec}
-\def\@purpleprob{\@purplesec}
-
-% define colors and symbols based on theme
-% we do not redefine probcolor because the default is black
-
-\reqcolor{\@primarycolor}
-
-\probsymb{\csname @\bounce@theme prob\endcsname}
-\reqsymb{\ding{166}} % joker symbol
+\probsymb{\printsymbol{bounce}{prob}}
+\reqsymb{\printsymbol{bounce}{req}}
 
 %%%%%%%%%%%%%%%
 %MISCELLAENOUS%
@@ -705,7 +436,7 @@
 
 % emphasis commandsR
 
-\renewcommand{\emph}[1]{{\@primary\bfseries #1}} % changes color to primary and bolds in text mode
+\renewcommand{\emph}[1]{{\applycolor{bounce}{primary}\bfseries #1}} % changes color to primary and bolds in text mode
 
-\newcommand{\ansbold}[1]{{\@primary\mathbf{#1}}} % changes color to primary and bolds in text mode
+\newcommand{\ansbold}[1]{{\applycolor{bounce}{primary}\mathbf{#1}}} % changes color to primary and bolds in text mode
 % intended use is to highlight answers

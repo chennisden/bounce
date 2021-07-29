@@ -46,8 +46,8 @@
 
 \ifprob@points
 
-    \newcommand{\minpt}[1]{Minimum is [#1\@probsymb]. Problems denoted with{\@primary\@reqsymb} are required. (They still count towards the point total.)
-    \vspace{0.2cm}
+    \newcommand{\minpt}[1]{Minimum is [#1\color{\@probcolor}\@probsymb]. Problems denoted with {\color{\@reqcolor}\@reqsymb} are required. (They still count towards the point total.)
+    \vspace{2mm}
     }
 
     \newenvironment{prob}[2][]{
@@ -60,7 +60,7 @@
         \@probfont\color{\@probcolor}[#2\@probsymb]\ifprob@numbered \;\fi\textbf{\@probtitle{#1}}}\hspace{3.5pt}\ignorespaces
     }
     {
-        \vspace{0.2cm}
+        \vspace{2mm}
     }
 
     \newenvironment{req}[2][]{
@@ -73,7 +73,7 @@
         \@probfont\color{\@reqcolor}[#2\@reqsymb]\ifprob@numbered \;\fi\textbf{\@probtitle{#1}}}\hspace{3.5pt}\ignorespaces
     }
     {
-        \vspace{0.2cm}
+        \vspace{2mm}
     }
 \else % no req because required problems are a bit silly if there are no points
     \newenvironment{prob}[1][]{
@@ -86,6 +86,6 @@
         \@probfont\color{\@probcolor}\textbf{\@probtitle{#1}}}\ignorespaces
     }
     {
-        \vspace{0.2cm}
+        \vspace{2mm}
     }
 \fi
