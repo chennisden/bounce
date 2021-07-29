@@ -21,13 +21,15 @@
 
 \RequirePackage{kvoptions}
 
-\DeclareStringOption[solu]{envname}
 \DeclareBoolOption[false]{showsol}
 
 \ProcessKeyvalOptions*
 
 \RequirePackage{fancyvrb} % provides the VerbatimOut environment
 \RequirePackage{fvextra} % patches fancyverb
+
+\def\solprint@envname{solu}
+\def\solprintenvname#1{\edef\solprint@envname{#1}}
 
 % Makes an environment part of solprint
 % Any environment that goes under this command
@@ -191,7 +193,7 @@
     \IfFileExists{\sol@filename}{% To eliminate any spaces
     % That follow the ends of the lines
     \ifsource    
-        \subsection{\temp@prefix{} \ifsource\hyperref[solu:\thesolfile]{\temp@problem}\else\temp@problem\fi{} \ifx\empty\temp@source\else(\temp@source)\fi}
+        \subsection{\temp@prefix{} \ifsource\hyperref[solu:#1]{\temp@problem}\else\temp@problem\fi{} \ifx\empty\temp@source\else(\temp@source)\fi}
         \input{\sol@filename}    
     \else
         \section{\temp@prefix{} \temp@problem{} (\temp@source)}
