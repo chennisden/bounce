@@ -85,7 +85,7 @@
 
 \setsuitesymbol{bounce}{global}{section}{\faGlobe}
 \setsuitesymbol{bounce}{global}{prob}{\adjustbox{Trim=4.3pt 2.6pt 4.3pt 0pt,width=1.3ex,margin=0.2ex 0ex 0.2ex 0ex}{\BlackPawnOnWhite}}
-\setsuitesymbol{bounce}{global}{req}{\adjustbox{Trim=3.2pt 2.2pt 3.2pt 0pt,width=1.58ex,raise=0ex,margin=0.1ex 0ex 0.1ex 0ex}{\BlackRookOnWhite}}
+\setsuitesymbol{bounce}{global}{req}{\adjustbox{Trim=2.3pt 2.35pt 2.5pt 0pt,width=1.85ex,raise=-0.03ex,margin=0.14ex 0ex 0.14ex 0ex}{\BlackKnightOnWhite}}
 
 % default active palette/suite
 \activepalette{bounce}{blue}

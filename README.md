@@ -1,6 +1,6 @@
 # Packages you need
 
-In 2021, I wrote several packages partially for the purpose of including them in this class (as well as other classes I develop): `ifallfalse`, `macrolist`, and `palette`, which I have or will publish to CTAN. The class depends on these packages to compile, so make sure you have them. Run
+In 2021, I wrote several packages partially for the purpose of including them in this class (as well as other classes I develop): `ifallfalse`, `macrolist`, and `palette`, which I have published to CTAN. The class depends on these packages to compile, so make sure you have them. Run
 
     tlmgr install packagename
 
