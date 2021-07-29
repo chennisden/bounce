@@ -69,19 +69,16 @@
 % and you NEVER can solify an environment with one optional argument and no mandatory arguments.
 
 \newcommand\solify[4][Solution to]{
-    % we define these because we are going to change the catcode of # later on
-    
-    \def\env@prefix{#1}
+    % we define this because we are going to change the catcode of # later on
+    % and need to pass it into \solifyhack.    
     \def\env@var{#2}
-    \def\env@name{#3}
-    \def\env@num{#4}
 
     \expandafter\xapptocmd\csname \env@var\endcsname{% We insert comments
         \stepcounter{probfile}% after each line,
         \gdef\titledefined{1}% so as to not
-        \xdef\solprint@envprefix{\env@prefix}% run into spacing issues.
-        \xdef\solprint@envproblem{\env@name{} \env@num}%
-        \xdef\solprint@envassoc{\theprobfile}%
+        \gdef\solprint@envprefix{#1}% run into spacing issues.
+        \gdef\solprint@envproblem{#3 #4}%
+        \gdef\solprint@envassoc{\theprobfile}%
     }{}{}
 
     \solifyhack
@@ -110,15 +107,12 @@
 % The cost is we cannot print the problem statement anywhere else.
 
 \newcommand\safesolify[4][Solution to]{
-    \def\env@prefix{#1}
     \def\env@var{#2}
-    \def\env@name{#3}
-    \def\env@num{#4}
 
     \expandafter\xapptocmd\csname \env@var\endcsname{% We insert comments
         \gdef\titledefined{1}% so as to not
-        \xdef\solprint@envprefix{\env@prefix}% run into spacing issues.
-        \xdef\solprint@envproblem{\env@name{} \env@num}%
+        \gdef\solprint@envprefix{#1}% run into spacing issues.
+        \gdef\solprint@envproblem{#3 #4}%
     }{}{}
 
     \safesolifyhack
