@@ -207,6 +207,8 @@
 %       - claim
 %       - remark
 
+\renewcommand{\bouncebox@lazycolor}{\getcolor{bounce}{primary}} % redefine lazy env color
+
 %   - lemma (keep a counter)
 
 \newcounter{lemma}[\envnumbering]
