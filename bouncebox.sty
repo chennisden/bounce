@@ -14,14 +14,16 @@
 
 \newcommand{\bouncebox@lazyfont}{\fontfamily{NotoSans-TLF}\selectfont\bfseries}
 \newcommand{\bouncebox@lazycolor}{black}
+\newcommand{\bouncebox@lazyvspace}{1.5mm}
+\newcommand{\bouncebox@lazyhspace}{1.5mm}
 
 \newenvironment{lazy}[1] % general lazy env
 {
-    \vspace{1.5mm}
-    \noindent{\bouncebox@lazyfont\color{\bouncebox@lazycolor} #1}\hspace{1.5mm}\ignorespaces
+    \vspace{\bouncebox@lazyvspace}
+    \noindent{\bouncebox@lazyfont\color{\bouncebox@lazycolor} #1}\hspace{\bouncebox@lazyhspace}\ignorespaces
 }
 {
-    \vspace{1.5mm}
+    \vspace{\bouncebox@lazyvspace}
 }
 
 %%%%%%%%%%%%%
