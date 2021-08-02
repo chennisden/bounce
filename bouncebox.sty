@@ -1,0 +1,181 @@
+\ProvidesPackage{bouncebox}[2021/7/27 A collection of tcolorbox boxes for the bounce class]
+
+\RequirePackage{tcolorbox}
+\tcbuselibrary{skins} % We need the "enhanced" skin to have box titles
+\tcbuselibrary{breakable} % allows tcolorbox to break between pages
+
+\RequirePackage{xcolor}
+
+%%%%%%
+%LAZY%
+%%%%%%
+
+% Lazy environments (just text)
+
+\newcommand{\bouncebox@lazyfont}{\fontfamily{NotoSans-TLF}\selectfont\bfseries}
+\newcommand{\bouncebox@lazycolor}{black}
+
+\newenvironment{lazy}[1] % general lazy env
+{
+    \vspace{1.5mm}
+    \noindent{\bouncebox@lazyfont\color{\bouncebox@lazycolor} #1}\hspace{1.5mm}\ignorespaces
+}
+{
+    \vspace{1.5mm}
+}
+
+%%%%%%%%%%%%%
+%FANCY BOXES%
+%%%%%%%%%%%%%
+
+% Boxes take arguments in the following order:
+%   title text, title font, box outline, box fill (if applicable, which it rarely is)
+%   outline and fill take in color NAMES as arguments
+% Because tcolorbox uses keys, it is necessary to surround the title in braces
+
+\newcommand\bounceboxbreakable{false} % Allows all breakable boxes
+% (just bouncepopopen so far) to break
+% only should be set to true or false
+
+\newenvironment{bouncepopopen}[3]{
+    \vspace{0.2mm}
+    \begin{tcolorbox}[
+        enhanced, % allows us to use certain other keys
+        breakable = \bounceboxbreakable,
+        frame hidden, % gets rid of default frame so we can draw our own
+        opacityback = 0, % makes background have 0 opacity, hence transparent
+        overlay unbroken = {
+            \draw [ultra thick, #3, line cap = round] ($(interior.south west)+(0.5,-0.3)$)--($(interior.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (interior.south west) -- (interior.north west) to[out = 90, in = 180] ($(interior.north west) + (0.3,0.3)$) -- ($(interior.north west) + (0.5,0.3)$);
+        },
+        overlay first = {
+            \draw [ultra thick, #3, line cap = round] (interior.south west) -- (interior.north west) to[out = 90, in = 180] ($(interior.north west) + (0.3,0.3)$) -- ($(interior.north west) + (0.5,0.3)$);
+        },
+        overlay last = {
+            \draw [ultra thick, #3, line cap = round] ($(interior.south west)+(0.5,-0.3)$)--($(interior.south west)+(0.3,-0.3)$) to[out = 180, in = -90] (interior.south west) -- (interior.north west) -- (interior.north west);
+        },
+        overlay middle = {
+            \draw [ultra thick, #3] (interior.south west) -- (interior.north west);
+        },
+        attach boxed title to top left = {xshift = 5.5mm},
+        colframe = #3,
+        colbacktitle = white,
+        title = #1,
+        fonttitle = #2,
+        top = 0.1cm,
+        bottom = 0cm,
+    ]
+        \raggedright    
+}
+{
+    \end{tcolorbox}
+    \vspace{4mm}
+}
+
+\newenvironment{bouncepopclosed}[4]{
+    \begin{tcolorbox}[
+        skin = enhanced,
+        attach boxed title to top left = {xshift = 4mm, yshift = -3.3mm, yshifttext = -2.5mm,},
+        colback = #4,
+        colframe = #3,
+        colbacktitle = #3,
+        title = {#1},
+        fonttitle = #2,
+    ]
+}
+{
+    \end{tcolorbox}
+}
+
+\newenvironment{bouncecornerhalfwidthbox}[3]{
+    \begin{tcolorbox}[
+        enhanced,
+        frame hidden,
+        detach title,
+        before upper=\tcbtitle\hspace{1.5mm},
+        opacityback = 0,
+        width = 8cm,
+        overlay = {
+            \draw [ultra thick, #3, line cap = round] ($(current bounding box.north west)+(0,-0.9)$) -- ($(current bounding box.north west)+(0,-0.6)$) to[out = 90, in = 180] ($(current bounding box.north west)+(0.6,0)$) -- ($(current bounding box.north west)+(1.5, 0)$);
+            \draw [ultra thick, #3, line cap = round] ($(current bounding box.south east)+(-1.5,0)$) -- ($(current bounding box.south east)+(-0.6,0)$) to[out = 0, in = 270] ($(current bounding box.south east)+(0,0.6)$) -- ($(current bounding box.south east)+(0,0.9)$);
+        },
+        title = {#1},
+        fonttitle = #2,
+        left = 0.5cm,
+        right = 0.5cm,
+        top = 0.4cm,
+        bottom = 0.4cm,
+    ]
+}
+{
+    \end{tcolorbox}
+}
+
+\newenvironment{bounceupleftbox}[3]{
+    \def\ulbvertspace{0.4}
+    \def\ulbbottomshift{0.06}
+    \stepcounter{exam}
+    \begin{tcolorbox}[
+        skin = enhanced,
+        frame hidden,
+        detach title, % removes title from normal position, stores value in \tcbtitle
+        before upper=\tcbtitle\hspace{1.5mm}, % put title at top
+        opacityback = 0,
+        overlay = {
+            \draw [ultra thick, #3, line cap = round] ($(current bounding box.south west)+(6,-0.3+\ulbvertspace+\ulbbottomshift)$)--($(current bounding box.south west)+(0.3,-0.3+\ulbvertspace+\ulbbottomshift)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\ulbvertspace+\ulbbottomshift)$) -- ($(current bounding box.north west)+(0,-\ulbvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\ulbvertspace)$) -- ($(current bounding box.north east) + (0,0.3-\ulbvertspace)$);
+        },
+        colframe = #3,
+        title = {#1},
+        fonttitle = #2,
+        top = \ulbvertspace cm,
+        bottom = \ulbvertspace cm,
+    ]
+    \raggedright\ignorespaces
+}
+{
+    \end{tcolorbox}
+}
+
+\newenvironment{bounceuprightbox}[3]{
+    \def\urbvertspace{0.4}
+    \def\urbtopshift{0.1}
+    \def\urbbottomshift{0.1}
+    \begin{tcolorbox}[
+        skin = enhanced,
+        frame hidden,
+        opacityback = 0,
+        overlay = {
+            \draw [ultra thick, #3, line cap = round] ($(current bounding box.south east)+(-6,-0.3+\urbvertspace+\urbbottomshift)$)--($(current bounding box.south east)+(-0.3,-0.3+\urbvertspace+\urbbottomshift)$) to[out = 0, in = 270] ($(current bounding box.south east)+(0,\urbvertspace+\urbbottomshift)$) -- ($(current bounding box.north east)+(0,-\urbvertspace-\urbtopshift)$) to[out = 90, in = 0] ($(current bounding box.north east) + (-0.3,0.3-\urbvertspace-\urbtopshift)$) -- ($(current bounding box.north west) + (0,0.3-\urbvertspace-\urbtopshift)$);
+        },
+        colframe = #3,
+        title = {#1},
+        fonttitle = #2,
+        top = \urbvertspace cm,
+        bottom = \urbvertspace cm,
+    ]
+        \raggedright
+}
+{
+    \end{tcolorbox}
+}
+
+\newenvironment{bouncedownrightbox}[3]{
+    \def\drbvertspace{0.4} % creates more vertical space for walkthrough
+    \begin{tcolorbox}[
+        skin = enhanced,
+        frame hidden,
+        detach title, % removes title from normal position, stores value in \tcbtitle
+        before upper={\tcbtitle\hspace{1.5mm}}, % put title at top
+        opacityback = 0,
+        overlay = {
+            \draw [ultra thick, #3, line cap = round] ($(current bounding box.south west)+(10,-0.3+\drbvertspace)$) -- ($(current bounding box.south west)+(0.3,-0.3+\drbvertspace)$) to[out = 180, in = -90] ($(current bounding box.south west)+(0,\drbvertspace)$) -- ($(current bounding box.north west)+(0,-\drbvertspace)$) to[out = 90, in = 180] ($(current bounding box.north west) + (0.3,0.3-\drbvertspace)$) -- ($(current bounding box.north west) + (4,0.3-\drbvertspace)$);
+        },
+        colframe = #3,
+        title = #1,
+        fonttitle = #2,
+        top = \drbvertspace cm,
+        bottom = \drbvertspace cm,
+    ]
+}
+{
+    \end{tcolorbox}
+}

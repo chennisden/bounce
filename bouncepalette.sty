@@ -1,0 +1,95 @@
+\ProvidesPackage{bouncepalette}[2021/07/27 Provides themes beyond the defaults in bouncecore]
+
+\RequirePackage{colorpalette}
+\RequirePackage{symbolpalette}
+
+\newpalettetheme{bounce}
+
+\addcolortotheme{bounce}{primary}
+\addcolortotheme{bounce}{light}
+
+\newsuitetheme{bounce}
+
+\addsymboltotheme{bounce}{section}
+\addsymboltotheme{bounce}{prob}
+\addsymboltotheme{bounce}{req}
+
+\newpalette{bounce}{red}
+\newpalette{bounce}{blue}
+\newpalette{bounce}{green}
+\newpalette{bounce}{purple}
+\newpalette{bounce}{cyan}
+
+\newsuite{bounce}{clubs}
+\newsuite{bounce}{diamonds}
+\newsuite{bounce}{hearts}
+\newsuite{bounce}{spades}
+\newsuite{bounce}{global}
+
+%%%%%%%%%
+%PALETTE%
+%%%%%%%%%
+
+% red
+\setpalettecolor{bounce}{red}{primary}{b40a14}
+\setpalettecolor{bounce}{red}{light}{fce8e8}
+
+% blue
+\setpalettecolor{bounce}{blue}{primary}{060d96}
+\setpalettecolor{bounce}{blue}{light}{dce6fb}
+
+% green
+\setpalettecolor{bounce}{green}{primary}{067612}
+\setpalettecolor{bounce}{green}{light}{e1ffe6}
+
+% purple
+\setpalettecolor{bounce}{purple}{primary}{50245a}
+\setpalettecolor{bounce}{purple}{light}{f5ebfa}
+
+% cyan
+\setpalettecolor{bounce}{cyan}{primary}{187199}
+\setpalettecolor{bounce}{cyan}{light}{e6f0fa}
+
+%%%%%%%
+%SUITE%
+%%%%%%%
+
+% Get some symbol packages
+\RequirePackage{pifont}
+\RequirePackage{fontawesome}
+\RequirePackage[skaknew]{skak}
+
+% Adjustbox for theme global's chess pieces
+\RequirePackage{adjustbox}
+
+% no prob/req - symbols are pretty self explanatory for cards
+
+\setsuitesymbol{bounce}{global}{section}{\faGlobe}
+\setsuitesymbol{bounce}{clubs}{section}{\ding{168}}
+\setsuitesymbol{bounce}{diamonds}{section}{\ding{169}}
+\setsuitesymbol{bounce}{hearts}{section}{\ding{170}}
+\setsuitesymbol{bounce}{spades}{section}{\ding{171}}
+
+% prob
+
+% for cards, copy sec symbols
+
+\setsuitesymbol{bounce}{global}{prob}{\adjustbox{Trim=4.3pt 2.6pt 4.3pt 0pt,width=1.3ex,margin=0.2ex 0ex 0.2ex 0ex}{\BlackPawnOnWhite}}
+\setsuitesymbol{bounce}{clubs}{prob}{\ding{168}}
+\setsuitesymbol{bounce}{diamonds}{prob}{\ding{169}}
+\setsuitesymbol{bounce}{hearts}{prob}{\ding{170}}
+\setsuitesymbol{bounce}{spades}{prob}{\ding{171}}
+
+% req
+
+\setsuitesymbol{bounce}{global}{req}{\adjustbox{Trim=2.3pt 2.35pt 2.5pt 0pt,width=1.85ex,raise=-0.03ex,margin=0.14ex 0ex 0.14ex 0ex}{\BlackKnightOnWhite}}
+
+% jokers for cards
+\setsuitesymbol{bounce}{clubs}{req}{\ding{166}}
+\setsuitesymbol{bounce}{diamonds}{req}{\ding{166}}
+\setsuitesymbol{bounce}{hearts}{req}{\ding{166}}
+\setsuitesymbol{bounce}{spades}{req}{\ding{166}}
+
+% default active palette/suite
+\activepalette{bounce}{blue}
+\activesuite{bounce}{global}
