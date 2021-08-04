@@ -19,12 +19,12 @@
 
 \newenvironment{lazy}[1] % general lazy env
 {
-    \addvspace{\bouncebox@lazyvspace}
+		\par\addvspace{\bouncebox@lazyvspace}
     \setlength\parindent{0pt}
     {\bouncebox@lazyfont\color{\bouncebox@lazycolor} #1}\hspace{\bouncebox@lazyhspace}\ignorespaces
 }
 {
-    \addvspace{\bouncebox@lazyvspace}
+    \par\addvspace{\bouncebox@lazyvspace}
 }
 
 %%%%%%%%%%%%%
