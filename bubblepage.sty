@@ -37,10 +37,5 @@
 
 \let\oldmaketitle\maketitle
 \def\maketitle{
-    \newpage    
-    \begingroup
-        \let\newpage\relax
-        \oldmaketitle\bubblepage\thispagestyle{empty}
-    \endgroup
-    \newpage
+	\oldmaketitle\bubblepage\thispagestyle{empty}
 }
